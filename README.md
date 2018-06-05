@@ -1,6 +1,6 @@
-#**FunnyImage**
-###一个Android看图软件
-使用自己所学来完成该项目
+# **FunnyImage**  
+### 一个Android看图软件
+## 使用自己所学来完成该项目
 V1.0版本打算使用以下技术完成该项目
 
  1. kotlin
