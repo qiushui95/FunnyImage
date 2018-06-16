@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FunnyImage.iml" filepath="$PROJECT_DIR$/FunnyImage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/forrecyclerview/forrecyclerview.iml" filepath="$PROJECT_DIR$/forrecyclerview/forrecyclerview.iml" />
     </modules>
   </component>
 </project>
