@@ -57,6 +57,7 @@ deps.dagger = dagger
 
 def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+kotlin.reflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
 kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.allOpen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
