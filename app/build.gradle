@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-noarg'
+
+apply plugin: 'kotlin-allopen'
+
 android {
     compileSdkVersion buildVersions.targetSdk
     defaultConfig {
@@ -30,4 +34,12 @@ dependencies {
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
+}
+
+noArg {
+    annotation("me.yangcx.funnyimage.annotation.POJO")
+}
+
+allOpen {
+    annotation("me.yangcx.funnyimage.annotation.POJO")
 }
