@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+
 android {
     compileSdkVersion buildVersions.targetSdk
     buildToolsVersion buildVersions.buildTools
@@ -27,7 +29,9 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.reflect
     implementation deps.support.recyclerView
-    implementation deps.mine.multiTypeAdapter
+    api (deps.mine.multiTypeAdapter){
+        exclude group: 'com.android.support'
+    }
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core

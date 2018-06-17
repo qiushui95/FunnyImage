@@ -2,11 +2,15 @@ package me.demo.yangcx.forrecyclerview.adapter
 
 import android.support.v7.util.DiffUtil
 import me.demo.yangcx.forrecyclerview.callback.DiffCallback
+import me.demo.yangcx.forrecyclerview.entity.ICopy
+import me.demo.yangcx.forrecyclerview.exception.NotImplementsICopyException
 import me.drakeet.multitype.MultiTypeAdapter
 
-abstract class BaseDataAdapter : MultiTypeAdapter() {
-    protected abstract val diffCallback: DiffCallback
+abstract class BaseDataAdapter : MultiTypeAdapter(), DiffCallback {
     override fun setItems(newItems: MutableList<*>) {
+        if (newItems.count { it is ICopy } != newItems.size) {
+            throw NotImplementsICopyException()
+        }
         val oldItems = items
         val diffUtilsCallback = object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -18,7 +22,7 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                     if (newItem == null) {
                         false
                     } else {
-                        diffCallback.areItemsTheSame(oldItem, newItem)
+                        this@BaseDataAdapter.areItemsTheSame(oldItem, newItem)
                     }
                 }
             }
@@ -40,7 +44,7 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                     if (newItem == null) {
                         false
                     } else {
-                        diffCallback.areContentsTheSame(oldItem, newItem)
+                        this@BaseDataAdapter.areContentsTheSame(oldItem, newItem)
                     }
                 }
             }
@@ -51,11 +55,15 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                 return if (oldItem == null || newItem == null) {
                     null
                 } else {
-                    diffCallback.getChangePayload(oldItem, newItem)
+                    this@BaseDataAdapter.getChangePayload(oldItem, newItem)
                 }
             }
         }
-        super.setItems(newItems)
+        super.setItems(newItems.map {
+            it as ICopy
+        }.map {
+            it.copySelf()
+        })
         val diffResult = DiffUtil.calculateDiff(diffUtilsCallback, true)
         diffResult.dispatchUpdatesTo(this)
     }

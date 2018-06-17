@@ -1,4 +1,4 @@
-package me.demo.yangcx.forrecyclerview
+package me.demo.yangcx.forrecyclerview.binder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
