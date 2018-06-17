@@ -1,4 +1,4 @@
-package me.demo.yangcx.forrecyclerview
+package me.demo.yangcx.forrecyclerview.binder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class CommonBinder<T, VH : BaseHolder<T>>(private val holderClass: KClass<VH>) : ItemViewBinder<T, VH>() {
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): VH {
         val holder = holderClass.constructors.first()
-                .call(inflater, parent)
+                .call(adapter, inflater, parent)
         holder.initThis()
         return holder
     }

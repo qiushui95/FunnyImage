@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import me.demo.yangcx.forrecyclerview.adapter.BaseDataAdapter
 
-abstract class BaseHolder<T>(@LayoutRes layoutRes: Int, inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(layoutRes, parent, false)) {
+abstract class BaseHolder<T>(private val adapter: BaseDataAdapter, @LayoutRes layoutRes: Int, inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(layoutRes, parent, false)) {
     /**
      * 初始化
      */
-    fun initThis() {
+    open fun initThis() {
 
     }
 

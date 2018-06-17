@@ -4,8 +4,7 @@ import android.support.v7.util.DiffUtil
 import me.demo.yangcx.forrecyclerview.callback.DiffCallback
 import me.drakeet.multitype.MultiTypeAdapter
 
-abstract class BaseDataAdapter : MultiTypeAdapter() {
-    protected abstract val diffCallback: DiffCallback
+abstract class BaseDataAdapter : MultiTypeAdapter(),DiffCallback {
     override fun setItems(newItems: MutableList<*>) {
         val oldItems = items
         val diffUtilsCallback = object : DiffUtil.Callback() {
@@ -18,7 +17,7 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                     if (newItem == null) {
                         false
                     } else {
-                        diffCallback.areItemsTheSame(oldItem, newItem)
+                        this@BaseDataAdapter.areItemsTheSame(oldItem, newItem)
                     }
                 }
             }
@@ -40,7 +39,7 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                     if (newItem == null) {
                         false
                     } else {
-                        diffCallback.areContentsTheSame(oldItem, newItem)
+                        this@BaseDataAdapter.areContentsTheSame(oldItem, newItem)
                     }
                 }
             }
@@ -51,7 +50,7 @@ abstract class BaseDataAdapter : MultiTypeAdapter() {
                 return if (oldItem == null || newItem == null) {
                     null
                 } else {
-                    diffCallback.getChangePayload(oldItem, newItem)
+                    this@BaseDataAdapter.getChangePayload(oldItem, newItem)
                 }
             }
         }
