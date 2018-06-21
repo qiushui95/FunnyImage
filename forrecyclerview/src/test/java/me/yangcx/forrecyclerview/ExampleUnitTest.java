@@ -1,4 +1,4 @@
-package me.demo.yangcx.forrecyclerview;
+package me.yangcx.forrecyclerview;
 
 import org.junit.Test;
 
