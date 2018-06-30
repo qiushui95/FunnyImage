@@ -29,7 +29,7 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.reflect
     implementation deps.support.recyclerView
-    api (deps.mine.multiTypeAdapter){
+    compileOnly  (deps.mine.multiTypeAdapter){
         exclude group: 'com.android.support'
     }
     testImplementation deps.junit

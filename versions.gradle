@@ -104,7 +104,7 @@ deps.androidGradlePlugin = "com.android.tools.build:gradle:$versions.androidGrad
 deps.junit = "junit:junit:$versions.junit"
 
 def mine = [:]
-mine.multiTypeAdapter = "me.drakeet.multitype:multitype-kotlin:$versions.multiTypeAdapter"
+mine.multiTypeAdapter = "me.drakeet.multitype:multitype:$versions.multiTypeAdapter"
 deps.mine = mine
 
 ext.deps = deps

@@ -1,8 +1,8 @@
-package me.demo.yangcx.forrecyclerview.binder
+package me.yangcx.forrecyclerview.binder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import me.demo.yangcx.forrecyclerview.holder.BaseHolder
+import me.yangcx.forrecyclerview.holder.BaseHolder
 import me.drakeet.multitype.ItemViewBinder
 import kotlin.reflect.KClass
 

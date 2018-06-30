@@ -1,5 +1,5 @@
-package me.demo.yangcx.forrecyclerview.entity
+package me.yangcx.forrecyclerview.entity
 
 interface ICopy {
-    fun copySelf(): Any
+    fun copySelf(): ICopy
 }

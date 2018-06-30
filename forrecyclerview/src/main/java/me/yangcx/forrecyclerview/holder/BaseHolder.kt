@@ -1,14 +1,11 @@
-package me.demo.yangcx.forrecyclerview.holder
+package me.yangcx.forrecyclerview.holder
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
-import me.demo.yangcx.forrecyclerview.adapter.BaseDataAdapter
 
-abstract class BaseHolder<T>( @LayoutRes layoutRes: Int, inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(layoutRes, parent, false)) {
+abstract class BaseHolder<T>(@LayoutRes layoutRes: Int, inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(layoutRes, parent, false)) {
     /**
      * 初始化
      */
@@ -24,7 +21,7 @@ abstract class BaseHolder<T>( @LayoutRes layoutRes: Int, inflater: LayoutInflate
     /**
      * Item局部发生变化、更新局部Item
      */
-    fun uiChanged(data: T, payload: Any) {
+    open fun uiChanged(data: T, payload: Any) {
 
     }
 }

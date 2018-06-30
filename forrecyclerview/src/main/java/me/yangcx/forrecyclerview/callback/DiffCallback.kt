@@ -1,4 +1,4 @@
-package me.demo.yangcx.forrecyclerview.callback
+package me.yangcx.forrecyclerview.callback
 
 internal interface DiffCallback {
     fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean
