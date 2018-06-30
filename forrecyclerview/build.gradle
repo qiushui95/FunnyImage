@@ -28,8 +28,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.reflect
-    implementation deps.support.recyclerView
-    compileOnly  (deps.mine.multiTypeAdapter){
+    api deps.support.recyclerView
+    api(deps.mine.multiTypeAdapter) {
         exclude group: 'com.android.support'
     }
     testImplementation deps.junit

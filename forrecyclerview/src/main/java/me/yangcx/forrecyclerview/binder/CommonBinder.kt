@@ -2,8 +2,8 @@ package me.yangcx.forrecyclerview.binder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import me.yangcx.forrecyclerview.holder.BaseHolder
 import me.drakeet.multitype.ItemViewBinder
+import me.yangcx.forrecyclerview.holder.BaseHolder
 import kotlin.reflect.KClass
 
 class CommonBinder<T, VH : BaseHolder<T>>(private val holderClass: KClass<VH>) : ItemViewBinder<T, VH>() {
@@ -19,10 +19,22 @@ class CommonBinder<T, VH : BaseHolder<T>>(private val holderClass: KClass<VH>) :
     }
 
     override fun onBindViewHolder(holder: VH, item: T, payloads: MutableList<Any>) {
-        if (payloads.isEmpty()) {
-            onBindViewHolder(holder, item)
+        if (payloads.isNotEmpty() && payloads[0] is List<*>) {
+            val payload = payloads[0]
+            payload as List<*>
+            val list = mutableListOf<String>()
+            payload.filter {
+                it is String
+            }.mapTo(list) {
+                it as String
+            }
+            if (list.isNotEmpty()) {
+                holder.uiChanged(item, list)
+            } else {
+                onBindViewHolder(holder, item)
+            }
         } else {
-            holder.uiChanged(item, payloads[0])
+            onBindViewHolder(holder, item)
         }
     }
 }

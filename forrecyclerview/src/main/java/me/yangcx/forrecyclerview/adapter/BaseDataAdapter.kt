@@ -2,36 +2,24 @@ package me.yangcx.forrecyclerview.adapter
 
 import android.support.annotation.NonNull
 import android.support.v7.util.DiffUtil
+import android.support.v7.util.ListUpdateCallback
+import android.util.Log
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.OneToManyFlow
 import me.yangcx.forrecyclerview.binder.CommonBinder
-import me.yangcx.forrecyclerview.callback.DiffCallback
-import me.yangcx.forrecyclerview.entity.ICopy
+import me.yangcx.forrecyclerview.entity.IAdapterData
 import me.yangcx.forrecyclerview.exception.NotImplementsICopyException
 import me.yangcx.forrecyclerview.holder.BaseHolder
 import kotlin.reflect.KClass
 
-abstract class BaseDataAdapter : MultiTypeAdapter(), DiffCallback {
+open class BaseDataAdapter : MultiTypeAdapter() {
+
     override fun setItems(newItems: MutableList<*>) {
-        if (newItems.count { it is ICopy } != newItems.size) {
+        if (newItems.count { it is IAdapterData } != newItems.size) {
             throw NotImplementsICopyException()
         }
         val oldItems = items
         val diffUtilsCallback = object : DiffUtil.Callback() {
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val oldItem = oldItems[oldItemPosition]
-                val newItem = newItems[newItemPosition]
-                return if (oldItem == null) {
-                    newItem == null
-                } else {
-                    if (newItem == null) {
-                        false
-                    } else {
-                        this@BaseDataAdapter.areItemsTheSame(oldItem, newItem)
-                    }
-                }
-            }
-
             override fun getOldListSize(): Int {
                 return oldItems.size
             }
@@ -40,36 +28,57 @@ abstract class BaseDataAdapter : MultiTypeAdapter(), DiffCallback {
                 return newItems.size
             }
 
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                val oldItem = oldItems[oldItemPosition]
+                val newItem = newItems[newItemPosition]
+                return oldItem is IAdapterData && newItem is IAdapterData && newItem.isSame(oldItem)
+            }
+
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = oldItems[oldItemPosition]
                 val newItem = newItems[newItemPosition]
-                return if (oldItem == null) {
-                    newItem == null
-                } else {
-                    if (newItem == null) {
-                        false
-                    } else {
-                        this@BaseDataAdapter.areContentsTheSame(oldItem, newItem)
-                    }
-                }
+                return oldItem is IAdapterData && newItem is IAdapterData && newItem.isContentSame(oldItem)
             }
 
             override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
                 val oldItem = oldItems[oldItemPosition]
                 val newItem = newItems[newItemPosition]
-                return if (oldItem == null || newItem == null) {
-                    null
+                return if (oldItem is IAdapterData && newItem is IAdapterData) {
+                    val list = mutableListOf<String>()
+                    newItem.getChangePayload(oldItem, list)
+                    if (list.isEmpty()) {
+                        null
+                    } else {
+                        list
+                    }
                 } else {
-                    this@BaseDataAdapter.getChangePayload(oldItem, newItem)
+                    null
                 }
             }
         }
         super.setItems(newItems.map {
-            it as ICopy
+            it as IAdapterData
         }.map {
             it.copySelf()
         })
         val diffResult = DiffUtil.calculateDiff(diffUtilsCallback, true)
+        diffResult.dispatchUpdatesTo(object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                Log.e("===onChanged====", "position:$position".plus("count:$count").plus("payload:$payload"))
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                Log.e("===onMoved====", "fromPosition:$fromPosition".plus("toPosition:$toPosition"))
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                Log.e("===onInserted====", "position:$position".plus("count:$count"))
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                Log.e("===onRemoved====", "position:$position".plus("count:$count"))
+            }
+        })
         diffResult.dispatchUpdatesTo(this)
     }
 
