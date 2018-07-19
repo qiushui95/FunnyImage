@@ -1,7 +1,7 @@
-package com.example.xdiolog.fragment.listener
+package me.yangcx.xdialog.listener
 
 import android.view.View
-import com.example.xdiolog.fragment.DismissAction
+import me.yangcx.xdialog.DismissAction
 
 interface PreDismissListener {
     fun preDismiss(parent: View, dismissAction: DismissAction): Boolean

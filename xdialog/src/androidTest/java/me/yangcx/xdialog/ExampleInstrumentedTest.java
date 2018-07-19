@@ -1,4 +1,4 @@
-package com.example.xdiolog;
+package me.yangcx.xdialog;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

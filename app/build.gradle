@@ -28,13 +28,16 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':xrecyclerview')
     implementation deps.kotlin.stdlib
     implementation deps.support.appcompat
     implementation deps.constraintLayout
+    implementation 'com.github.limuyang2.LDialog:ldialog:1.0'
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
+    implementation project(':xdialog')
 }
 
 noArg {

@@ -1,1 +1,1 @@
-include ':app', ':forrecyclerview'
+include ':app', ':xrecyclerview', ':xdialog'

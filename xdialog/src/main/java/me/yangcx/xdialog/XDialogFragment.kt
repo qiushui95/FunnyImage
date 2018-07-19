@@ -1,4 +1,4 @@
-package com.example.xdiolog.fragment
+package me.yangcx.xdialog
 
 import android.app.Dialog
 import android.content.Context
@@ -10,9 +10,9 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import com.example.xdiolog.fragment.listener.DismissedListener
-import com.example.xdiolog.fragment.listener.OnShowListener
-import com.example.xdiolog.fragment.listener.PreDismissListener
+import me.yangcx.xdialog.listener.DismissedListener
+import me.yangcx.xdialog.listener.OnShowListener
+import me.yangcx.xdialog.listener.PreDismissListener
 import java.util.*
 
 abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : DialogFragment(), XDialogFragmentBuilder, DismissAction {
@@ -26,13 +26,15 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
         private set
     var showTag = UUID.randomUUID().toString().toUpperCase()
         private set
-    var outsideTouchable = true
+    var outsideCancelable = true
         private set
     var backPressable = true
         private set
     private val onShowListenerList by lazy { mutableListOf<OnShowListener>() }
     private val preDismissListenerList by lazy { mutableListOf<PreDismissListener>() }
     private val dismissedListenerList by lazy { mutableListOf<DismissedListener>() }
+
+    private var isShowing = false
 
     override fun setWidth(width: Int, isDp: Boolean): XDialogFragmentBuilder {
         this.width = width
@@ -53,8 +55,8 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
     }
 
 
-    override fun setOutsideTouchable(outsideTouchable: Boolean): XDialogFragmentBuilder {
-        this.outsideTouchable = outsideTouchable
+    override fun setOutsideCancelable(outsideCancelable: Boolean): XDialogFragmentBuilder {
+        this.outsideCancelable = outsideCancelable
         return this
     }
 
@@ -81,7 +83,6 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
 
     override fun showImmediately(manager: FragmentManager) {
         super.show(manager, showTag)
-
     }
 
     override fun showImmediately(manager: FragmentManager, showTag: String) {
@@ -99,6 +100,19 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
      */
     abstract fun initThis(view: View)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedInstanceState?.apply {
+            width = getInt(KEY_WIDTH)
+            widthDpValue = getBoolean(KEY_WIDTH_DP_VALUE)
+            height = getInt(KEY_HEIGHT)
+            heightDpValue = getBoolean(KEY_HEIGHT_DP_VALUE)
+            backColor = getInt(KEY_BACK_COLOR)
+            showTag = getString(KEY_SHOW_TAG)
+            outsideCancelable = getBoolean(KEY_OUTSIDE_CANCELABLE)
+            backPressable = getBoolean(KEY_BACK_PRESSABLE)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.setCancelable(false)
@@ -107,10 +121,18 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initThis(view)
+        dialog?.setOnShowListener {
+            onShowListenerList.forEach {
+                it.onShow(view)
+            }
+            isShowing = true
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return XDialog(requireContext(), theme, onShowListenerList, preDismissListenerList, dismissedListenerList)
+        return XDialog(requireContext(), theme, beforeCancel = {
+            beforeDismiss()
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -123,32 +145,58 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
         initBackPressable()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_WIDTH, width)
+        outState.putBoolean(KEY_WIDTH_DP_VALUE, widthDpValue)
+        outState.putInt(KEY_HEIGHT, height)
+        outState.putBoolean(KEY_HEIGHT_DP_VALUE, heightDpValue)
+        outState.putInt(KEY_BACK_COLOR, backColor)
+        outState.putString(KEY_SHOW_TAG, showTag)
+        outState.putBoolean(KEY_OUTSIDE_CANCELABLE, outsideCancelable)
+        outState.putBoolean(KEY_BACK_PRESSABLE, backPressable)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        dismissedListenerList.forEach {
+            it.onDismiss()
+        }
+    }
+
     override fun dismissImmediately() {
         super.dismiss()
     }
 
     override fun dismiss() {
-        val parent = dialog?.window?.decorView
-        if (parent is View) {
-            var dismissImmediately = true
-            preDismissListenerList.toList()
-                    .forEach {
-                        if (it.preDismiss(parent, this)) {
-                            dismissImmediately = false
-                        }
-                        preDismissListenerList.remove(it)
-                    }
-            if (dismissImmediately) {
-                dismissImmediately()
-            }
-        }
-        if (parent !is View) {
+        if (beforeDismiss()) {
             dismissImmediately()
         }
     }
 
     private fun dp2Px(dpValue: Int): Int {
         return (requireContext().resources.displayMetrics.density * dpValue + 0.5f).toInt()
+    }
+
+    private fun beforeDismiss(): Boolean {
+        return if (isShowing) {
+            isShowing = false
+            val parent = dialog?.window?.decorView
+            if (parent is View) {
+                var dismissImmediately = true
+                preDismissListenerList.toList()
+                        .forEach {
+                            if (it.preDismiss(parent, this)) {
+                                dismissImmediately = false
+                            }
+                        }
+                dismissImmediately
+            } else {
+                true
+            }
+        } else {
+            false
+        }
     }
 
     private fun initWidth() {
@@ -183,25 +231,12 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
 
     private fun initOutsideTouchable() {
         dialog?.apply {
-            setCanceledOnTouchOutside(this@XDialogFragment.outsideTouchable)
+            setCanceledOnTouchOutside(this@XDialogFragment.outsideCancelable)
         }
     }
 
     private fun initBackPressable() {
-        dialog?.apply {
-            if (!this@XDialogFragment.backPressable) {
-                setOnKeyListener(null)
-            } else {
-                setOnKeyListener { _, keyCode, event ->
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.action == MotionEvent.ACTION_DOWN && event.repeatCount == 0) {
-                        dismiss()
-                        true
-                    } else {
-                        false
-                    }
-                }
-            }
-        }
+        dialog?.setCancelable(this.backPressable)
     }
 
     /**
@@ -223,5 +258,16 @@ abstract class XDialogFragment(@LayoutRes private val layoutResId: Int) : Dialog
     fun showSoftInput(view: View) {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(view, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+    }
+
+    companion object {
+        private const val KEY_WIDTH = "width"
+        private const val KEY_WIDTH_DP_VALUE = "widthDpValue"
+        private const val KEY_HEIGHT = "height"
+        private const val KEY_HEIGHT_DP_VALUE = "heightDpValue"
+        private const val KEY_BACK_COLOR = "backColor"
+        private const val KEY_SHOW_TAG = "showTag"
+        private const val KEY_OUTSIDE_CANCELABLE = "outsideCancelable"
+        private const val KEY_BACK_PRESSABLE = "backPressable"
     }
 }

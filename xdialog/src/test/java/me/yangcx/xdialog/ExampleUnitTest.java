@@ -1,4 +1,4 @@
-package com.example.xdiolog;
+package me.yangcx.xdialog;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.xdiolog.fragment
+package me.yangcx.xdialog
 
 interface DismissAction {
     fun dismissImmediately()
