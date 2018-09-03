@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="#f00">
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimenDialogSheetMargin"
+        android:layout_marginEnd="@dimen/dimenDialogSheetMargin"
+        android:layout_marginBottom="@dimen/dimenDialogSheetMargin"
+        android:background="@drawable/bg_round_container"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimenDialogRoundContainerRadius">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimenDialogSheetMargin"
+        android:layout_marginEnd="@dimen/dimenDialogSheetMargin"
+        android:layout_marginBottom="@dimen/dimenDialogSheetMargin"
+        android:background="@drawable/bg_sheet_button_cancel"
+        android:gravity="center"
+        android:paddingTop="@dimen/dimenDialogButtonPadding"
+        android:paddingBottom="@dimen/dimenDialogButtonPadding"
+        android:text="@string/stringDialogCancel"
+        tools:textSize="16sp" />
+</LinearLayout>

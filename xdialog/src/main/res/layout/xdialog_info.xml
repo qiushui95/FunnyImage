@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llInfo"
+    style="@style/styleXDialogInfoContainer">
+
+    <ImageView
+        android:id="@+id/ivStatus"
+        style="@style/styleXDialogInfoStatus"
+        tools:srcCompat="@drawable/ic_status_info" />
+
+    <me.yangcx.xdialog.weight.ProgressView
+        android:id="@+id/pvProgress"
+        style="@style/styleXDialogInfoStatus"
+        app:progressBorderColor="#10000000"
+        app:progressBorderSize="1dp"
+        app:progressCompleteColor="#60000000" />
+
+    <me.yangcx.xdialog.weight.LoadingView
+        android:id="@+id/lvLoading"
+        style="@style/styleXDialogInfoStatus" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        style="@style/styleXDialogInfoMessage" />
+</LinearLayout>

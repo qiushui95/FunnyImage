@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorDialog0">#FF000000</color>
+    <color name="colorDialog0Transparent80">#80000000</color>
+    <color name="colorDialog0Transparent00">#00000000</color>
+    <color name="colorDialog3">#FF333333</color>
+    <color name="colorDialog3Transparent80">#80333333</color>
+    <color name="colorDialog6">#FF666666</color>
+    <color name="colorDialog6Transparent80">#80666666</color>
+    <color name="colorDialog9">#FF999999</color>
+    <color name="colorDialog9Transparent80">#80999999</color>
+    <color name="colorDialoge2">#FFE2E2E2</color>
+    <color name="colorDialoge2Transparent80">#80E2E2E2</color>
+    <color name="colorDialoge2Transparent40">#40E2E2E2</color>
+    <color name="colorDialogff">#FFFFFFFF</color>
+    <color name="colorDialogffTransparent80">#80FFFFFF</color>
+
+    <!--取消按钮颜色-->
+    <color name="colorDialogButtonCancel">#007AFF</color>
+    <!--高亮按钮颜色-->
+    <color name="colorDialogButtonHighlight">#FF3B30</color>
+    <!--普通按钮文字颜色-->
+    <color name="colorDialogButtonNormal">#007AFF</color>
+
+    <!--分割线颜色-->
+    <color name="colorDialogAlertDivider">#D7D7DB</color>
+
+    <!--窗口颜色-->
+    <color name="colorDialogWindowBgStart">#F0F0F0</color>
+    <color name="colorDialogWindowBgEnd">#F8F8F8</color>
+</resources>

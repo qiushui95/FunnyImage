@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingView">
+        <attr name="loadingStrokeWidth" format="dimension" />
+        <attr name="loadingStartColor" format="color" />
+        <attr name="loadingEndColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="ProgressView">
+        <attr name="progressBorderSize" format="dimension" />
+        <attr name="progressBorderColor" format="color" />
+        <attr name="progressCompleteColor" format="color" />
+    </declare-styleable>
+</resources>

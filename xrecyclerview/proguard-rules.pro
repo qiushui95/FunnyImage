@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class * implements me.yangcx.forrecyclerview.entity.IAdapterData {*;}
+-keep class * extends me.yangcx.forrecyclerview.holder.BaseHolder<*> {*;}
+-keep class  kotlin.reflect.**{*;}

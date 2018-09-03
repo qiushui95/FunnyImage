@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-noarg'
 
 apply plugin: 'kotlin-allopen'
@@ -30,14 +32,59 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':xrecyclerview')
-    implementation deps.kotlin.stdlib
-    implementation deps.support.appcompat
-    implementation deps.constraintLayout
-    implementation 'com.github.limuyang2.LDialog:ldialog:1.0'
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
-    implementation project(':xdialog')
+
+    //kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
+
+    //support
+    implementation deps.support.appcompat
+    implementation deps.support.design
+
+    //okHttp
+    implementation deps.okHttp.logging
+
+    //retrofit
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+
+    //room
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+    implementation deps.room.rxJava2
+
+    //lifecycle
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    kapt deps.lifecycle.compiler
+
+    //dagger
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    kapt deps.dagger.compiler
+
+    //glide
+    implementation deps.glide.runtime
+    kapt deps.glide.compiler
+
+    //view
+    implementation deps.view.constraintLayout
+
+    //rx
+    implementation deps.rx.java2
+    implementation deps.rx.android2
+
+    //recycler
+    implementation deps.recyclerView.recyclerView
+    implementation deps.recyclerView.multiTypeAdapter
+    implementation deps.recyclerView.paging
+
+    //utils
+    implementation deps.utils.timber
+    implementation deps.utils.joda
 }
 
 noArg {

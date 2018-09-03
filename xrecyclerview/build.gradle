@@ -8,17 +8,18 @@ android {
     defaultConfig {
         minSdkVersion buildVersions.minSdk
         targetSdkVersion buildVersions.targetSdk
-        versionCode 1
-        versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        sourceSets {
+            main.java.srcDirs += 'src/main/kotlin'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -26,13 +27,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.kotlin.stdlib
-    implementation deps.kotlin.reflect
-    api deps.support.recyclerView
-    api(deps.mine.multiTypeAdapter) {
+    compileOnly deps.kotlin.stdlib
+    compileOnly deps.kotlin.reflect
+    compileOnly deps.recyclerView.recyclerView
+    compileOnly(deps.recyclerView.multiTypeAdapter) {
         exclude group: 'com.android.support'
     }
-    testImplementation deps.junit
-    androidTestImplementation deps.atsl.runner
-    androidTestImplementation deps.espresso.core
 }

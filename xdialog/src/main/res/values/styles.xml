@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="styleXDialogInfoContainer">
+        <item name="android:layout_width">@dimen/dimenDialogInfoWidth</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_round_container</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">@dimen/dimenDialogInfoWidth</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/dimenDialogRoundContainerRadius</item>
+    </style>
+
+    <style name="styleXDialogInfoStatus">
+        <item name="android:layout_width">@dimen/dimenDialogInfoStatusWidth</item>
+        <item name="android:layout_height">@dimen/dimenDialogInfoStatusWidth</item>
+    </style>
+
+    <style name="styleXDialogInfoMessage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dimenDialogInfoMarginTop</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textColor">@color/colorDialog3</item>
+        <item name="autoSizeMaxTextSize">@dimen/dimenDialogInfoMessageMaxSize</item>
+        <item name="autoSizeMinTextSize">@dimen/dimenDialogInfoMessageMinSize</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+</resources>

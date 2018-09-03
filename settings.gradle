@@ -1,1 +1,1 @@
-include ':app', ':xrecyclerview', ':xdialog'
+include ':app', ':xdialog', ':xrecyclerview', ':xtoast'

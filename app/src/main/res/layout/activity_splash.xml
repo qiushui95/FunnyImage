@@ -4,27 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity">
+    tools:context=".ui.view.SplashActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvContent"
+    <ImageView
+        android:id="@+id/ivSplash"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvClick"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvClick"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#197ad7"
-        android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="点我"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

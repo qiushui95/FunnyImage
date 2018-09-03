@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion buildVersions.targetSdk
+    buildToolsVersion buildVersions.buildTools
+    defaultConfig {
+        minSdkVersion buildVersions.minSdk
+        targetSdkVersion buildVersions.targetSdk
+
+        sourceSets {
+            main.java.srcDirs += 'src/main/kotlin'
+        }
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
+    compileOnly deps.support.appcompat
+}
+repositories {
+    mavenCentral()
+}

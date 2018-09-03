@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimenDialogRoundContainerRadius">5dp</dimen>
+    <dimen name="dimenDialogSheetMargin">10dp</dimen>
+    <dimen name="dimenDialogButtonPadding">16dp</dimen>
+    <dimen name="dimenDialogInfoWidth">120dp</dimen>
+    <dimen name="dimenDialogInfoMarginTop">10dp</dimen>
+    <dimen name="dimenDialogInfoMessageMaxSize">16sp</dimen>
+    <dimen name="dimenDialogInfoMessageMinSize">12sp</dimen>
+    <dimen name="dimenDialogInfoStatusWidth">36dp</dimen>
+</resources>
