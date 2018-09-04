@@ -4,12 +4,13 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.api.ApiConfig
+import me.yangcx.funnyimage.di.scope.ActivityScope
 import me.yangcx.funnyimage.di.scope.GlobalScope
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@Module(includes = arrayOf(GsonModule::class, NetworkModule::class))
+@Module(includes = [GsonModule::class, NetworkModule::class])
 class WebServiceModule {
     @Provides
     @GlobalScope
