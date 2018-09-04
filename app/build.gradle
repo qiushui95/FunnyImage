@@ -65,6 +65,9 @@ dependencies {
     implementation deps.dagger.runtime
     implementation deps.dagger.android
     kapt deps.dagger.compiler
+    implementation deps.dagger.androidSupport
+    kapt deps.dagger.androidSupportCompiler
+
 
     //glide
     implementation deps.glide.runtime

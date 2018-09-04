@@ -5,7 +5,7 @@ import me.yangcx.funnyimage.di.scope.SplashScope
 import me.yangcx.funnyimage.ui.view.SplashActivity
 
 @SplashScope
-@Component(dependencies = arrayOf(GlobalComponent::class))
+@Component(dependencies = [GlobalComponent::class])
 interface SplashComponent {
     fun inject(activity: SplashActivity)
 }

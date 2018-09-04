@@ -9,7 +9,7 @@ import me.yangcx.funnyimage.di.module.WebServiceModule
 import me.yangcx.funnyimage.di.scope.GlobalScope
 
 @GlobalScope
-@Component(modules = arrayOf(ApplicationModule::class, GsonModule::class, WebServiceModule::class))
+@Component(modules = [ApplicationModule::class, GsonModule::class, WebServiceModule::class])
 interface GlobalComponent {
     fun getGson(): Gson
     fun getApiConfig(): ApiConfig
