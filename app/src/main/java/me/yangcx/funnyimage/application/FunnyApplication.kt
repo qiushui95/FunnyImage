@@ -2,6 +2,7 @@ package me.yangcx.funnyimage.application
 
 import android.app.Activity
 import android.app.Application
+import android.support.multidex.MultiDexApplication
 import android.support.v4.app.Fragment
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -11,7 +12,7 @@ import me.yangcx.funnyimage.log.FileTree
 import timber.log.Timber
 import javax.inject.Inject
 
-class FunnyApplication : Application(), HasActivityInjector {
+class FunnyApplication : MultiDexApplication(), HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 

@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
 import me.yangcx.funnyimage.di.scope.GlobalScope
+import me.yangcx.funnyimage.http.CommonParamInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,8 +29,9 @@ class NetworkModule {
 
     @Provides
     @GlobalScope
-    fun provideClient(interceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+    fun provideClient(commonParamInterceptor: CommonParamInterceptor, logInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(logInterceptor)
+            .addInterceptor(commonParamInterceptor)
             .cache(cache)
             .build()
 }

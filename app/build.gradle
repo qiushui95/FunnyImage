@@ -19,6 +19,7 @@ android {
         targetSdkVersion buildVersions.targetSdk
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -43,6 +44,7 @@ dependencies {
     //support
     implementation deps.support.appcompat
     implementation deps.support.design
+    implementation deps.support.multiDex
 
     //okHttp
     implementation deps.okHttp.logging
@@ -67,7 +69,6 @@ dependencies {
     kapt deps.dagger.compiler
     implementation deps.dagger.androidSupport
     kapt deps.dagger.androidSupportCompiler
-
 
     //glide
     implementation deps.glide.runtime
