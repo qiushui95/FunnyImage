@@ -11,7 +11,7 @@ import me.yangcx.funnyimage.di.scope.GlobalScope
 import javax.inject.Singleton
 
 @GlobalScope
-@Component(modules = [WebServiceModule::class, AndroidInjectionModule::class, ActivityBindModule::class], dependencies = [ApplcationComponent::class])
+@Component(modules = [WebServiceModule::class, AndroidInjectionModule::class, ActivityBindModule::class],dependencies = [DirectoryComponent::class])
 interface GlobalComponent {
     fun inject(app: FunnyApplication)
 }

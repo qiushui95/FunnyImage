@@ -6,34 +6,38 @@ import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.di.qualifier.ApplicationQualifier
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
-import me.yangcx.funnyimage.di.qualifier.DirectoryLogQualifier
-import me.yangcx.funnyimage.di.qualifier.DirectoryLogcatQualifier
 import me.yangcx.funnyimage.extend.getChild
 import me.yangcx.funnyimage.extend.newChild
+import org.joda.time.DateTime
 import java.io.File
 
-@Module()
+@Module
 class DirectoryModule {
-    @Provides
-    fun provideRootCache(@ApplicationQualifier context: Context): File {
-        return if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
-            context.externalCacheDir ?: context.cacheDir
-        } else {
-            context.cacheDir
+    private lateinit var rootCache: File
+
+    private fun getRootCache(context: Context): File {
+        if (!this::rootCache.isInitialized) {
+            rootCache = if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
+                context.externalCacheDir ?: context.cacheDir
+            } else {
+                context.cacheDir
+            }
         }
+        return rootCache
     }
 
-    @Provides
-    @DirectoryLogQualifier
-    fun provideLogCache(rootDirectory: File) = rootDirectory.getChild(DIRECTORY_NAME_LOG)
+    private fun getLogCache(context: Context) = getRootCache(context).getChild(DIRECTORY_NAME_LOG)
 
     @Provides
     @DirectoryHttpQualifier
-    fun provideHttpCache(@DirectoryLogQualifier logDirectory: File) = logDirectory.newChild(DIRECTORY_NAME_HTTP)
+    fun provideHttpCache(@ApplicationQualifier context: Context) = getLogCache(context).newChild(DIRECTORY_NAME_HTTP)
 
     @Provides
-    @DirectoryLogcatQualifier
-    fun provideLogcatCache(@DirectoryLogQualifier logDirectory: File) = logDirectory.newChild(DIRECTORY_NAME_LOGCAT)
+//    @DirectoryLogcatQualifier
+    fun provideLogcatCache(@ApplicationQualifier context: Context) = getLogCache(context).newChild(DIRECTORY_NAME_LOGCAT)
+
+    @Provides
+    fun provideHourName(): String = DateTime().toString("yyyyMMddHH")
 
     companion object {
         private const val DIRECTORY_NAME_LOG = "log"

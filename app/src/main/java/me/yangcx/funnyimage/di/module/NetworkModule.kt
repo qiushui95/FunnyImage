@@ -1,28 +1,24 @@
 package me.yangcx.funnyimage.di.module
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
-import me.yangcx.funnyimage.di.qualifier.ApplicationQualifier
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
-import me.yangcx.funnyimage.di.scope.ActivityScope
 import me.yangcx.funnyimage.di.scope.GlobalScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import java.io.File
-import javax.inject.Singleton
 
-@Module(includes = [DirectoryModule::class])
+@Module
 class NetworkModule {
     @Provides
     @GlobalScope
     fun provideInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor {
-            Timber.i("http:%s", it)
+            Timber.i(it)
         }
-        interceptor.level = HttpLoggingInterceptor.Level.BASIC
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }
 
@@ -32,7 +28,7 @@ class NetworkModule {
 
     @Provides
     @GlobalScope
-    fun provideClient(interceptor: HttpLoggingInterceptor, cache: Cache) = OkHttpClient.Builder()
+    fun provideClient(interceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .cache(cache)
             .build()
