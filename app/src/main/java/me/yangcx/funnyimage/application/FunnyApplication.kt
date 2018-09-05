@@ -18,18 +18,18 @@ class FunnyApplication : MultiDexApplication(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        initComponents()
+        initTimer()
+    }
+
+    fun initComponents() {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
-        directoryComponent = DaggerDirectoryComponent.builder()
-                .applicationComponent(applicationComponent)
-                .build()
-        globalComponent = DaggerGlobalComponent
+        DaggerGlobalComponent
                 .builder()
-                .directoryComponent(directoryComponent)
                 .build()
-        globalComponent.inject(this)
-        initTimer()
+                .inject(this)
     }
 
     private fun initTimer() {
@@ -41,8 +41,27 @@ class FunnyApplication : MultiDexApplication(), HasActivityInjector {
 
     companion object {
         lateinit var applicationComponent: ApplicationComponent
-        lateinit var directoryComponent: DirectoryComponent
-        lateinit var globalComponent: GlobalComponent
+        val gsonComponent by lazy {
+            DaggerGsonComponent.builder()
+                    .build()
+        }
+        val directoryComponent by lazy {
+            DaggerDirectoryComponent.builder()
+                    .applicationComponent(applicationComponent)
+                    .build()
+        }
+        val remoteComponent by lazy {
+            DaggerRemoteComponent.builder()
+                    .gsonComponent(gsonComponent)
+                    .directoryComponent(directoryComponent)
+                    .build()
+        }
+        val repositoryComponent by lazy {
+            DaggerRepositoryComponent.builder()
+                    .remoteComponent(remoteComponent)
+                    .build()
+        }
+
         fun get(activity: Activity) = activity.application as FunnyApplication
         fun get(fragment: Fragment) = get(fragment.requireActivity())
     }

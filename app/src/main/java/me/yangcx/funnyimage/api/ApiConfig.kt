@@ -10,8 +10,8 @@ import retrofit2.http.Query
 
 interface ApiConfig {
     @GET("random")
-    fun getSplashImage(@Query("w") width: Int, @Query("h") height: Int): Call<SingleResult<UnsplashContainer>>
+    fun getSplashImage(): Call<UnsplashContainer>
 
     @GET("random")
-    fun getImageList(@Query("count") count: Int): Call<MultipleResult<UnsplashContainer>>
+    fun getImageList(@Query("count") count: Int): Call<List<UnsplashContainer>>
 }

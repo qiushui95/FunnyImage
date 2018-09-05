@@ -7,7 +7,6 @@ import me.yangcx.funnyimage.log.FileTree
 import java.io.File
 import javax.inject.Singleton
 
-@Singleton
 @Component(modules = [DirectoryModule::class],dependencies = [ApplicationComponent::class])
 interface DirectoryComponent {
     @DirectoryHttpQualifier
