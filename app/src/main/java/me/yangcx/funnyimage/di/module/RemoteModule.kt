@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.api.ApiConfig
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
-import me.yangcx.funnyimage.di.scope.GlobalScope
 import me.yangcx.funnyimage.di.scope.RemoteScope
 import me.yangcx.funnyimage.http.CommonParamInterceptor
 import okhttp3.Cache
@@ -15,6 +14,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.File
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
 
 @Module
 class RemoteModule {
@@ -38,6 +39,9 @@ class RemoteModule {
             .addInterceptor(logInterceptor)
             .addInterceptor(commonParamInterceptor)
             .cache(cache)
+            .connectTimeout(10 * 1000, TimeUnit.MILLISECONDS)
+            .readTimeout(1000, TimeUnit.MILLISECONDS)
+            .writeTimeout(1000, TimeUnit.MILLISECONDS)
             .build()
 
     @Provides
