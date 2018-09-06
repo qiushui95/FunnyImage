@@ -9,7 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_splash.*
 import me.yangcx.funnyimage.R
-import me.yangcx.funnyimage.aac.model.SplashViewModel
+import me.yangcx.funnyimage.viewmodel.SplashViewModel
 import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.glide.FunnyTransformation
 

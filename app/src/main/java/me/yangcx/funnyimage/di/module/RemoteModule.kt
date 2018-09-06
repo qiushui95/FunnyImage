@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.api.ApiConfig
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
-import me.yangcx.funnyimage.di.scope.RemoteScope
+import me.yangcx.funnyimage.di.scope.RepositoryScope
 import me.yangcx.funnyimage.http.CommonParamInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -15,12 +15,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.SSLContext
 
 @Module
 class RemoteModule {
     @Provides
-    @RemoteScope
+    @RepositoryScope
     fun provideInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor {
             Timber.i(it)
@@ -30,11 +29,11 @@ class RemoteModule {
     }
 
     @Provides
-    @RemoteScope
+    @RepositoryScope
     fun provideCache(@DirectoryHttpQualifier httpDirectory: File) = Cache(httpDirectory, 100 * 1024 * 1024)
 
     @Provides
-    @RemoteScope
+    @RepositoryScope
     fun provideClient(commonParamInterceptor: CommonParamInterceptor, logInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(logInterceptor)
             .addInterceptor(commonParamInterceptor)
@@ -45,7 +44,7 @@ class RemoteModule {
             .build()
 
     @Provides
-    @RemoteScope
+    @RepositoryScope
     fun provideApiService(gson: Gson, client: OkHttpClient): ApiConfig {
         return Retrofit.Builder()
                 .baseUrl("https://api.unsplash.com/photos/")

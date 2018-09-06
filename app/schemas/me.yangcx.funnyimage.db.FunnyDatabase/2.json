@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "df8a71fe0f38fad6af1aca0e7f07ee7f",
+    "entities": [
+      {
+        "tableName": "ImageInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `thumb` TEXT NOT NULL, `small` TEXT NOT NULL, `regular` TEXT NOT NULL, `full` TEXT NOT NULL, `raw` TEXT NOT NULL, `createTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumb",
+            "columnName": "thumb",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "small",
+            "columnName": "small",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regular",
+            "columnName": "regular",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "full",
+            "columnName": "full",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "raw",
+            "columnName": "raw",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createTime",
+            "columnName": "createTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"df8a71fe0f38fad6af1aca0e7f07ee7f\")"
+    ]
+  }
+}

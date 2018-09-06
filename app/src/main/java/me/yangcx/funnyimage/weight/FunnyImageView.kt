@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.widget.ImageView
-import timber.log.Timber
 
 class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : ImageView(context, attrs, defStyleAttr) {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -86,7 +85,9 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
                 src.bottom -= 1
             }
         }
-        invalidate()
+        if (imageWidth - width > 10 || imageHeight - height > 10) {
+            invalidate()
+        }
     }
 
     fun resume() {

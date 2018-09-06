@@ -41,24 +41,20 @@ class FunnyApplication : MultiDexApplication(), HasActivityInjector {
 
     companion object {
         lateinit var applicationComponent: ApplicationComponent
-        val gsonComponent by lazy {
+        val gsonComponent: GsonComponent by lazy {
             DaggerGsonComponent.builder()
                     .build()
         }
-        val directoryComponent by lazy {
+        val directoryComponent: DirectoryComponent by lazy {
             DaggerDirectoryComponent.builder()
                     .applicationComponent(applicationComponent)
                     .build()
         }
-        val remoteComponent by lazy {
-            DaggerRemoteComponent.builder()
+        val repositoryComponent: RepositoryComponent by lazy {
+            DaggerRepositoryComponent.builder()
+                    .applicationComponent(applicationComponent)
                     .gsonComponent(gsonComponent)
                     .directoryComponent(directoryComponent)
-                    .build()
-        }
-        val repositoryComponent by lazy {
-            DaggerRepositoryComponent.builder()
-                    .remoteComponent(remoteComponent)
                     .build()
         }
 

@@ -1,13 +1,16 @@
 package me.yangcx.funnyimage.entity
 
-import com.google.gson.annotations.SerializedName
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 
-
+@Entity
 data class ImageInfo(
-        @SerializedName("id") val id: String,
-        @SerializedName("thumb") val thumb: String,
-        @SerializedName("small") val small: String,
-        @SerializedName("regular") val regular: String,
-        @SerializedName("full") val full: String,
-        @SerializedName("raw") val raw: String
+        @PrimaryKey
+        val id: String,
+        val thumb: String,
+        val small: String,
+        val regular: String,
+        val full: String,
+        val raw: String,
+        val createTime: Long = System.currentTimeMillis()
 )

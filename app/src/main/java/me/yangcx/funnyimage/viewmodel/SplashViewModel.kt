@@ -1,17 +1,18 @@
-package me.yangcx.funnyimage.aac.model
+package me.yangcx.funnyimage.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import me.yangcx.funnyimage.aac.repository.SplashRepository
-import me.yangcx.funnyimage.api.ApiConfig
 import me.yangcx.funnyimage.application.FunnyApplication
+import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.entity.ImageInfo
-import retrofit2.Retrofit
+import me.yangcx.funnyimage.repository.SplashRepository
 import javax.inject.Inject
 
 class SplashViewModel : ViewModel() {
     @Inject
     lateinit var repository: SplashRepository
+    @Inject
+    lateinit var dao: FunnyDao
 
     init {
         FunnyApplication.repositoryComponent
