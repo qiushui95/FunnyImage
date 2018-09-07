@@ -1,14 +1,11 @@
 package me.yangcx.funnyimage.api
 
-import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.entity.UnsplashContainer
-import me.yangcx.funnyimage.reponse.MultipleResult
-import me.yangcx.funnyimage.reponse.SingleResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiConfig {
+interface ApiService {
     @GET("random")
     fun getSplashImage(): Call<UnsplashContainer>
 

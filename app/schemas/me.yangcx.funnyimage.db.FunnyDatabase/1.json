@@ -1,19 +1,13 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "626688bb3eb7a3450dab2eb36d18497c",
+    "version": 1,
+    "identityHash": "9b98f88a2120cede4a1699d8dc75af6b",
     "entities": [
       {
         "tableName": "ImageInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `thumb` TEXT NOT NULL, `small` TEXT NOT NULL, `regular` TEXT NOT NULL, `full` TEXT NOT NULL, `raw` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `thumb` TEXT NOT NULL, `small` TEXT NOT NULL, `regular` TEXT NOT NULL, `full` TEXT NOT NULL, `raw` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "index",
-            "columnName": "index",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -53,26 +47,17 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "index"
+            "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_ImageInfo_id",
-            "unique": true,
-            "columnNames": [
-              "id"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_ImageInfo_id` ON `${TABLE_NAME}` (`id`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"626688bb3eb7a3450dab2eb36d18497c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9b98f88a2120cede4a1699d8dc75af6b\")"
     ]
   }
 }

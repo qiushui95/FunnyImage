@@ -1,4 +1,4 @@
-package me.yangcx.funnyimage.viewmodel
+package me.yangcx.funnyimage.ui.view
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -11,8 +11,6 @@ import javax.inject.Inject
 class SplashViewModel : ViewModel() {
     @Inject
     lateinit var repository: SplashRepository
-    @Inject
-    lateinit var dao: FunnyDao
 
     init {
         FunnyApplication.repositoryComponent

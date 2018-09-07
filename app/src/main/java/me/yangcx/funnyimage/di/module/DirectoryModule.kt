@@ -33,7 +33,6 @@ class DirectoryModule {
     fun provideHttpCache(@ApplicationQualifier context: Context) = getLogCache(context).newChild(DIRECTORY_NAME_HTTP)
 
     @Provides
-//    @DirectoryLogcatQualifier
     fun provideLogcatCache(@ApplicationQualifier context: Context) = getLogCache(context).newChild(DIRECTORY_NAME_LOGCAT)
 
     @Provides

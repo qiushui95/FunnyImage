@@ -3,7 +3,7 @@ package me.yangcx.funnyimage.di.module
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
-import me.yangcx.funnyimage.api.ApiConfig
+import me.yangcx.funnyimage.api.ApiService
 import me.yangcx.funnyimage.di.qualifier.DirectoryHttpQualifier
 import me.yangcx.funnyimage.di.scope.RepositoryScope
 import me.yangcx.funnyimage.http.CommonParamInterceptor
@@ -45,12 +45,12 @@ class RemoteModule {
 
     @Provides
     @RepositoryScope
-    fun provideApiService(gson: Gson, client: OkHttpClient): ApiConfig {
+    fun provideApiService(gson: Gson, client: OkHttpClient): ApiService {
         return Retrofit.Builder()
                 .baseUrl("https://api.unsplash.com/photos/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
-                .create(ApiConfig::class.java)
+                .create(ApiService::class.java)
     }
 }
