@@ -4,8 +4,13 @@ import android.arch.lifecycle.MutableLiveData
 import me.yangcx.funnyimage.api.ApiService
 import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.di.scope.RepositoryScope
+import me.yangcx.funnyimage.entity.CollectInfo
 import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.entity.UnsplashContainer
+import me.yangcx.funnyimage.extend.resultOnUi
+import me.yangcx.funnyimage.extend.subscribeStatus
+import me.yangcx.funnyimage.http.SingleStatusResult
+import me.yangcx.funnyimage.http.StatusEnum
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,20 +21,16 @@ import kotlin.concurrent.thread
 @RepositoryScope
 class SplashRepository @Inject constructor(private val retrofit: ApiService, private val dao: FunnyDao) {
 
-    fun getSplashImage(splashImage: MutableLiveData<ImageInfo>) {
+    fun getSplashImage(data: MutableLiveData<SingleStatusResult<ImageInfo>>) {
         retrofit.getSplashImage()
-                .enqueue(object : Callback<UnsplashContainer> {
-                    override fun onFailure(call: Call<UnsplashContainer>, t: Throwable) {
-                        Timber.e(t.message?:"hgjk")
-                    }
+                .resultOnUi()
+                .subscribeStatus(data) { value, result ->
+                    value.data = result.convertToImageInfo()
+                    value.status = StatusEnum.SUCCESS
+                }
+    }
 
-                    override fun onResponse(call: Call<UnsplashContainer>, response: Response<UnsplashContainer>) {
-                        val imageInfo = response.body()?.convertToImageInfo()
-                        splashImage.value = imageInfo
-                        thread {
-                            dao.insertImage(imageInfo)
-                        }
-                    }
-                })
+    fun collectImage(id: String) {
+        dao.insertCollect(CollectInfo(id, true))
     }
 }

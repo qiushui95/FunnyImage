@@ -11,6 +11,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.File
@@ -34,6 +35,11 @@ class RemoteModule {
 
     @Provides
     @RepositoryScope
+    fun provideRxAdapter() = RxJavaCallAdapterFactory.create()
+
+
+    @Provides
+    @RepositoryScope
     fun provideClient(commonParamInterceptor: CommonParamInterceptor, logInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(logInterceptor)
             .addInterceptor(commonParamInterceptor)
@@ -45,10 +51,11 @@ class RemoteModule {
 
     @Provides
     @RepositoryScope
-    fun provideApiService(gson: Gson, client: OkHttpClient): ApiService {
+    fun provideApiService(gson: Gson, rxAdapter: RxJavaCallAdapterFactory, client: OkHttpClient): ApiService {
         return Retrofit.Builder()
                 .baseUrl("https://api.unsplash.com/photos/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(rxAdapter)
                 .client(client)
                 .build()
                 .create(ApiService::class.java)

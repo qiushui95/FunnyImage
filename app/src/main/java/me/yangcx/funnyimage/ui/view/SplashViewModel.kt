@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import me.yangcx.funnyimage.application.FunnyApplication
 import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.entity.ImageInfo
+import me.yangcx.funnyimage.http.SingleStatusResult
 import me.yangcx.funnyimage.repository.SplashRepository
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class SplashViewModel : ViewModel() {
     }
 
     val splashImage by lazy {
-        MutableLiveData<ImageInfo>()
+        MutableLiveData<SingleStatusResult<ImageInfo>>()
     }
 
     fun getSplashImage() {
