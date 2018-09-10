@@ -1,28 +1,39 @@
 package me.yangcx.funnyimage.extend
 
 import android.arch.lifecycle.MutableLiveData
-import io.reactivex.Maybe
-import io.reactivex.MaybeObserver
+import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import me.yangcx.funnyimage.http.SingleStatusResult
 import me.yangcx.funnyimage.http.StatusEnum
+import org.reactivestreams.Subscription
 
-inline fun<reified T> Maybe<T>.resultOnUi(): Maybe<T> {
-    return subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-}
+inline fun <reified T> Single<T>.resultOnUi() = subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 
-inline fun <reified T, H> Maybe<T>.subscribeStatus(data: MutableLiveData<SingleStatusResult<H>>, crossinline onSuccess: (value: SingleStatusResult<H>, result: T) -> Unit) {
+
+fun Completable.resultOnUi() = subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+inline fun <reified T> Maybe<T>.resultOnUi() = subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+inline fun <reified T> Observable<T>.resultOnUi() = subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+inline fun <reified T> Flowable<T>.resultOnUi() = subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+inline fun <reified T, H> Observable<T>.subscribeStatus(data: MutableLiveData<SingleStatusResult<H>>, crossinline onSuccess: (value: SingleStatusResult<H>, result: T) -> Unit) {
     val value = data.value ?: SingleStatusResult()
-    subscribe(object : MaybeObserver<T> {
+    subscribe(object : Observer<T> {
         override fun onSubscribe(d: Disposable) {
             value.status = StatusEnum.LOADING
             data.value = value
         }
 
-        override fun onSuccess(t: T) {
+        override fun onNext(t: T) {
             onSuccess(value, t)
         }
 
@@ -32,7 +43,7 @@ inline fun <reified T, H> Maybe<T>.subscribeStatus(data: MutableLiveData<SingleS
         }
 
         override fun onComplete() {
-            data.value = data.value
+            data.postValue(value)
         }
     })
 }

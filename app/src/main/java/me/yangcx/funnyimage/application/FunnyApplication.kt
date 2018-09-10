@@ -1,9 +1,9 @@
 package me.yangcx.funnyimage.application
 
 import android.app.Activity
-import android.app.Application
 import android.support.multidex.MultiDexApplication
 import android.support.v4.app.Fragment
+import com.luliang.shapeutils.DevShapeUtils
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import me.yangcx.funnyimage.di.component.*
@@ -20,9 +20,10 @@ class FunnyApplication : MultiDexApplication(), HasActivityInjector {
         super.onCreate()
         initComponents()
         initTimer()
+        initDevShape()
     }
 
-    fun initComponents() {
+    private fun initComponents() {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
@@ -34,6 +35,10 @@ class FunnyApplication : MultiDexApplication(), HasActivityInjector {
 
     private fun initTimer() {
         Timber.plant(FileTree(true))
+    }
+
+    private fun initDevShape() {
+        DevShapeUtils.init(this)
     }
 
     override fun activityInjector() = activityInjector

@@ -32,6 +32,7 @@ android {
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -62,7 +63,7 @@ dependencies {
     //retrofit
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
-    implementation deps.retrofit.rx
+    implementation deps.retrofit.rxJava2
 
     //room
     implementation deps.room.runtime
@@ -100,6 +101,7 @@ dependencies {
     //utils
     implementation deps.utils.timber
     implementation deps.utils.joda
+    implementation deps.utils.devShape
 }
 
 noArg {

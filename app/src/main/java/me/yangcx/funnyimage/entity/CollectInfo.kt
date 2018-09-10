@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 class CollectInfo(
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey
         @ForeignKey(entity = ImageInfo::class, parentColumns = ["id"], childColumns = ["imageId"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE, deferred = false)
         val imageId: String,
         val collected: Boolean,

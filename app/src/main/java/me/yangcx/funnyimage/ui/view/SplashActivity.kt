@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import me.yangcx.funnyimage.R
 import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.glide.FunnyTransformation
+import me.yangcx.funnyimage.http.SingleStatusResult
+import me.yangcx.funnyimage.weight.FunnyImageView
+import timber.log.Timber
 
 class SplashActivity : AppCompatActivity() {
 
@@ -18,12 +21,21 @@ class SplashActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        Glide.with(this).load(R.mipmap.ic_status_loading).apply(RequestOptions().transform(FunnyTransformation())).into(ivSplash)
         val viewModel = ViewModelProviders.of(this)
                 .get(SplashViewModel::class.java)
-        viewModel.splashImage.observe(this, Observer<ImageInfo> {
-            Glide.with(this).load(it?.regular).apply(RequestOptions().transform(FunnyTransformation())).into(ivSplash)
+        viewModel.splashImage.observe(this, Observer<SingleStatusResult<ImageInfo>> {
+            Timber.e("image:${it?.status}")
+            it?.data?.regular?.also { regular ->
+                Glide.with(this).load(regular).apply(RequestOptions().transform(FunnyTransformation())).into(ivSplash)
+            }
         })
         viewModel.getSplashImage()
+        ivSplash.setOnImageAnimationListener(object : FunnyImageView.OnImageAnimationListener {
+            override fun onCompleteOnce() {
+
+            }
+        })
     }
 
     override fun onResume() {
