@@ -15,10 +15,8 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context) : this(context, null)
 
-    private var onImageAnimationListener: OnImageAnimationListener = object : OnImageAnimationListener {
-        override fun onCompleteOnce() {
-
-        }
+    private val onImageAnimationListenerList by lazy {
+        mutableListOf<OnImageAnimationListener>()
     }
 
     private val handlerMap by lazy { mutableMapOf<Int, Handler>() }
@@ -60,7 +58,9 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
             if (it is BitmapDrawable) {
                 canvas.drawBitmap(it.bitmap, src, dst, paint)
                 if (src.left == 0 && isStartToEnd && imageAnimationCompleteTime == 1) {
-                    onImageAnimationListener.onCompleteOnce()
+                    onImageAnimationListenerList.forEach {
+                        it.onCompleteOnce()
+                    }
                 }
                 val handler = handlerMap[it.hashCode()]
                 if (handler != null) {
@@ -102,10 +102,17 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         }
     }
 
-    @Synchronized
-    fun setOnImageAnimationListener(listener: OnImageAnimationListener) {
-        synchronized(this.onImageAnimationListener) {
-            this.onImageAnimationListener = listener
+    fun addOnImageAnimationListener(listener: OnImageAnimationListener) {
+        onImageAnimationListenerList.add(listener)
+    }
+
+    fun removeImageAnimationListener(listener: OnImageAnimationListener) {
+        this.onImageAnimationListenerList.remove(listener)
+    }
+
+    fun removeAllImageAnimationListener() {
+        this.onImageAnimationListenerList.removeAll {
+            true
         }
     }
 

@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.view.SplashActivity">
@@ -19,30 +20,31 @@
         android:id="@+id/vBack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#30000000"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#20000000"
+        app:layout_constraintEnd_toEndOf="@id/tvEnter"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ivCollect"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivCollect"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_uncollected"
         app:layout_constraintBottom_toBottomOf="@id/vBack"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/tvEnter"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/vBack" />
 
     <TextView
         android:id="@+id/tvEnter"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
         android:maxLines="1"
         android:paddingStart="8dp"
@@ -52,7 +54,6 @@
         app:autoSizeMinTextSize="12sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@id/vBack"
-        app:layout_constraintEnd_toEndOf="@id/vBack"
         app:layout_constraintStart_toEndOf="@id/ivCollect"
         app:layout_constraintTop_toTopOf="@id/vBack" />
 </android.support.constraint.ConstraintLayout>
