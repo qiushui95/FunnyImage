@@ -45,8 +45,8 @@ class RemoteModule {
             .addInterceptor(commonParamInterceptor)
             .cache(cache)
             .connectTimeout(10 * 1000, TimeUnit.MILLISECONDS)
-            .readTimeout(1000, TimeUnit.MILLISECONDS)
-            .writeTimeout(1000, TimeUnit.MILLISECONDS)
+            .readTimeout(5*1000, TimeUnit.MILLISECONDS)
+            .writeTimeout(5*1000, TimeUnit.MILLISECONDS)
             .build()
 
     @Provides

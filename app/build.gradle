@@ -91,7 +91,9 @@ dependencies {
 
     //rx
     implementation deps.rx.java2
+    implementation deps.rx.kotlin
     implementation deps.rx.android2
+    implementation deps.rx.binding2
 
     //recycler
     implementation deps.recyclerView.recyclerView

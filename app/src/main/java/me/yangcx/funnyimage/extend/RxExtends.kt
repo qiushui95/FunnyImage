@@ -1,27 +1,32 @@
 package me.yangcx.funnyimage.extend
 
 import android.arch.lifecycle.MutableLiveData
+import android.support.annotation.CheckResult
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import me.yangcx.funnyimage.http.SingleStatusResult
 import me.yangcx.funnyimage.http.StatusEnum
-import org.reactivestreams.Subscription
 
+@CheckResult
 inline fun <reified T> Single<T>.resultOnUi() = subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
 
+@CheckResult
 fun Completable.resultOnUi() = subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+@CheckResult
 inline fun <reified T> Maybe<T>.resultOnUi() = subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+@CheckResult
 inline fun <reified T> Observable<T>.resultOnUi() = subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+@CheckResult
 inline fun <reified T> Flowable<T>.resultOnUi() = subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

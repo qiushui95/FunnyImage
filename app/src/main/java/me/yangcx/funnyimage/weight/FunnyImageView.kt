@@ -15,9 +15,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context) : this(context, null)
 
-    private val onImageAnimationListenerList by lazy {
-        mutableListOf<OnImageAnimationListener>()
-    }
 
     private val handlerMap by lazy { mutableMapOf<Int, Handler>() }
 
@@ -32,7 +29,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
     private var isHorizontal = true
     private var isStartToEnd = true
-    private var imageAnimationCompleteTime = 0
 
     private val src by lazy {
         Rect()
@@ -46,7 +42,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         drawable?.also {
             isHorizontal = imageWidth > width
             isStartToEnd = true
-            imageAnimationCompleteTime = 0
             src.set(0, 0, width, height)
             resume()
         }
@@ -57,11 +52,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         image?.also {
             if (it is BitmapDrawable) {
                 canvas.drawBitmap(it.bitmap, src, dst, paint)
-                if (src.left == 0 && isStartToEnd && imageAnimationCompleteTime == 1) {
-                    onImageAnimationListenerList.forEach {
-                        it.onCompleteOnce()
-                    }
-                }
                 val handler = handlerMap[it.hashCode()]
                 if (handler != null) {
                     doNext()
@@ -76,7 +66,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
                 isStartToEnd = false
             } else if (src.left - 1 < 0 && !isStartToEnd) {
                 isStartToEnd = true
-                imageAnimationCompleteTime++
             } else if (isStartToEnd) {
                 src.right += 1
                 src.left += 1
@@ -102,19 +91,6 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         }
     }
 
-    fun addOnImageAnimationListener(listener: OnImageAnimationListener) {
-        onImageAnimationListenerList.add(listener)
-    }
-
-    fun removeImageAnimationListener(listener: OnImageAnimationListener) {
-        this.onImageAnimationListenerList.remove(listener)
-    }
-
-    fun removeAllImageAnimationListener() {
-        this.onImageAnimationListenerList.removeAll {
-            true
-        }
-    }
 
     fun resume() {
         val image = image
@@ -128,9 +104,5 @@ class FunnyImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         val handler = handlerMap[this.image?.hashCode()]
         handlerMap.remove(this.image?.hashCode())
         handler?.removeCallbacksAndMessages(null)
-    }
-
-    interface OnImageAnimationListener {
-        fun onCompleteOnce()
     }
 }
