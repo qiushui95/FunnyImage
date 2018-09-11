@@ -88,6 +88,8 @@ dependencies {
 
     //view
     implementation deps.view.constraintLayout
+    implementation deps.view.smartRefresh
+    implementation deps.view.smartRefreshHeader
 
     //rx
     implementation deps.rx.java2
