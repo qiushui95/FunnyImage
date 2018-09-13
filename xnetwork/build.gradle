@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion buildVersions.targetSdk
     buildToolsVersion buildVersions.buildTools
+
     defaultConfig {
         minSdkVersion buildVersions.minSdk
         targetSdkVersion buildVersions.targetSdk
@@ -27,10 +28,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //kotlin
     compileOnly deps.kotlin.stdlib
-    compileOnly deps.kotlin.reflect
-    compileOnly deps.support.appcompat
-}
-repositories {
-    mavenCentral()
+
+    //retrofit
+    compileOnly deps.retrofit.runtime
+    compileOnly deps.retrofit.gson
+
+    //rx
+    compileOnly deps.rx.java2
+
+    //lifecycle
+    compileOnly deps.lifecycle.runtime
+    compileOnly deps.lifecycle.extensions
 }

@@ -1,12 +1,9 @@
 package me.yangcx.funnyimage.ui.splash
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.transition.TransitionManager
-import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -15,21 +12,18 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.jakewharton.rxbinding2.view.RxView
 import com.luliang.shapeutils.DevShapeUtils
-import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_splash.*
 import me.yangcx.funnyimage.R
 import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.glide.FunnyTransformation
-import me.yangcx.funnyimage.http.SingleStatusResult
-import me.yangcx.funnyimage.http.StatusEnum
+import me.yangcx.xfoundation.ui.ViewModelActivity
+import me.yangcx.xnetwork.entity.SingleStatusResult
+import me.yangcx.xnetwork.status.RequestStatus
 import java.util.concurrent.TimeUnit
 
-class SplashActivity : AppCompatActivity() {
-    private val viewModel by lazy {
-        ViewModelProviders.of(this)
-                .get(SplashViewModel::class.java)
-    }
+class SplashActivity : ViewModelActivity<SplashViewModel>(R.layout.activity_splash, SplashViewModel::class) {
+
     private val hideConstraintSet by lazy {
         ConstraintSet()
     }
@@ -37,14 +31,10 @@ class SplashActivity : AppCompatActivity() {
         ConstraintSet()
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+    override fun initThis() {
         Glide.with(this).load(R.mipmap.ic_status_loading).apply(RequestOptions().transform(FunnyTransformation())).into(ivSplash)
         viewModel.splashImage.observe(this, Observer<SingleStatusResult<ImageInfo>> {
-            if (it?.status == StatusEnum.SUCCESS) {
+            if (it?.status == RequestStatus.SUCCESS) {
                 it.data?.regular?.also { regular ->
                     Glide.with(this).load(regular).apply(
                             RequestOptions()
@@ -64,7 +54,7 @@ class SplashActivity : AppCompatActivity() {
             }
         })
         viewModel.collectStatus.observe(this, Observer<SingleStatusResult<Boolean>> {
-            ivCollect.isClickable = it?.status != StatusEnum.LOADING
+            ivCollect.isClickable = it?.status != RequestStatus.LOADING
             ivCollect.setImageResource(if (it?.data == true) {
                 R.drawable.ic_collected
             } else {

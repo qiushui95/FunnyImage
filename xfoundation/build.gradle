@@ -2,9 +2,11 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+
 android {
     compileSdkVersion buildVersions.targetSdk
     buildToolsVersion buildVersions.buildTools
+
     defaultConfig {
         minSdkVersion buildVersions.minSdk
         targetSdkVersion buildVersions.targetSdk
@@ -22,15 +24,32 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //test
+    testImplementation deps.junit
+    androidTestImplementation deps.atsl.runner
+    androidTestImplementation deps.espresso.core
+
+    //kotlin
     compileOnly deps.kotlin.stdlib
-    compileOnly deps.kotlin.reflect
+
+    //support
     compileOnly deps.support.appcompat
-}
-repositories {
-    mavenCentral()
+
+    //lifecycle
+    compileOnly deps.lifecycle.runtime
+    compileOnly deps.lifecycle.extensions
+
+    //dagger
+    compileOnly deps.dagger.runtime
+    compileOnly deps.dagger.android
+    compileOnly deps.dagger.androidSupport
+
+    //rx
+    compileOnly deps.rx.java2
+    compileOnly deps.rx.android2
 }

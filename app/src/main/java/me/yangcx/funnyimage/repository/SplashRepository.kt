@@ -7,37 +7,43 @@ import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.di.scope.RepositoryScope
 import me.yangcx.funnyimage.entity.CollectInfo
 import me.yangcx.funnyimage.entity.ImageInfo
-import me.yangcx.funnyimage.extend.resultOnUi
-import me.yangcx.funnyimage.extend.subscribeStatus
-import me.yangcx.funnyimage.http.SingleStatusResult
-import me.yangcx.funnyimage.http.StatusEnum
+import me.yangcx.funnyimage.entity.UnsplashContainer
+import me.yangcx.xfoundation.extend.subscribeOnIoObserveOnUi
+import me.yangcx.xnetwork.callback.SingleResponseObserver
+import me.yangcx.xnetwork.entity.SingleStatusResult
+import me.yangcx.xnetwork.status.RequestStatus
 import javax.inject.Inject
 
 @RepositoryScope
 class SplashRepository @Inject constructor(private val retrofit: ApiService, private val dao: FunnyDao) {
 
-    fun getSplashImage(data: MutableLiveData<SingleStatusResult<ImageInfo>>, collectStatus: MutableLiveData<SingleStatusResult<Boolean>>) {
+    fun getSplashImage(data: MutableLiveData<SingleStatusResult<ImageInfo>>) {
         retrofit.getSplashImage()
-                .resultOnUi()
-                .subscribeStatus(data) { value, result ->
-                    value.data = result.convertToImageInfo()
-                    value.status = StatusEnum.SUCCESS
-                }
+                .subscribeOnIoObserveOnUi()
+                .subscribe(
+                        object : SingleResponseObserver<UnsplashContainer, ImageInfo>(data) {
+                            override fun onSuccess(value: SingleStatusResult<ImageInfo>, result: UnsplashContainer) {
+                                value.data = result.convertToImageInfo()
+                                value.status = RequestStatus.SUCCESS
+                            }
+                        })
     }
 
     fun collectImage(id: String, collectStatus: MutableLiveData<SingleStatusResult<Boolean>>) {
         Observable.just(id)
                 .map {
                     dao.insertCollect(CollectInfo(id, !(collectStatus.value?.data == true)))
-                }.resultOnUi()
-                .subscribeStatus(collectStatus) { value, result ->
-                    if (result != -1L) {
-                        value.data = !(value.data == true)
-                        value.status = StatusEnum.SUCCESS
-                    } else {
-                        value.status = StatusEnum.ERROR
-                        value.errorMessage = "发生错误"
+                }.subscribeOnIoObserveOnUi()
+                .subscribe(object : SingleResponseObserver<Long, Boolean>(collectStatus) {
+                    override fun onSuccess(value: SingleStatusResult<Boolean>, result: Long) {
+                        if (result != -1L) {
+                            value.data = !(value.data == true)
+                            value.status = RequestStatus.SUCCESS
+                        } else {
+                            value.status = RequestStatus.ERROR
+                            value.errorMessage = "发生错误"
+                        }
                     }
-                }
+                })
     }
 }
