@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.db.FunnyDatabase
-import me.yangcx.funnyimage.db.Migration1To2
 import me.yangcx.funnyimage.di.qualifier.ApplicationQualifier
 import me.yangcx.funnyimage.di.scope.RepositoryScope
 
@@ -17,7 +16,6 @@ class DatabaseModule {
     @RepositoryScope
     fun provideMigrations(): Array<Migration> {
         val list = mutableListOf<Migration>()
-        list.add(Migration1To2())
         return Array(list.size) {
             list[it]
         }

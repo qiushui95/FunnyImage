@@ -3,15 +3,19 @@ package me.yangcx.funnyimage.entity
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
+import me.yangcx.funnyimage.annotation.POJO
 
+@POJO
 @Entity(indices = [Index("id", unique = true)])
-data class ImageInfo(
+open class ImageInfo(
         @PrimaryKey(autoGenerate = true)
-        val index: Long,
-        val id: String,
-        val thumb: String,
-        val small: String,
-        val regular: String,
-        val full: String,
-        val raw: String
+        var index: Long,
+        var id: String,
+        var width: Int,
+        var height: Int,
+        var thumb: String,
+        var small: String,
+        var regular: String,
+        var full: String,
+        var raw: String
 )

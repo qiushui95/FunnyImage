@@ -2,10 +2,8 @@ package me.yangcx.funnyimage.ui.splash
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import me.yangcx.funnyimage.application.FunnyApplication
 import me.yangcx.funnyimage.di.holder.DaggerHolder
 import me.yangcx.funnyimage.entity.ImageInfo
-import me.yangcx.funnyimage.repository.SplashRepository
 import me.yangcx.xnetwork.entity.SingleStatusResult
 import javax.inject.Inject
 
@@ -14,7 +12,7 @@ class SplashViewModel : ViewModel() {
     lateinit var repository: SplashRepository
 
     init {
-        DaggerHolder.repositoryComponent
+        DaggerHolder.viewModelComponent
                 .inject(this)
     }
 

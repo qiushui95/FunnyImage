@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    apply from: "C:/OneDrive/Android/libary/sign.gradle"
-    apply from: "C:/OneDrive/Android/libary/versions.gradle"
+    apply from: "C:/Dropbox/Android/libary/sign.gradle"
+    apply from: "C:/Dropbox/Android/libary/versions.gradle"
     addRepos(repositories)
     dependencies {
         classpath deps.androidGradlePlugin

@@ -5,8 +5,10 @@ import me.yangcx.xnetwork.status.RequestStatus
 class MultipleStatusResult<T> {
     var status = RequestStatus.SUCCESS
     var errorMessage: String? = null
-    val data: MutableList<T> = mutableListOf()
+    val dataList: MutableList<T> = mutableListOf()
 
     fun isLoading() = status == RequestStatus.LOADING
     fun isNotLoading() = !isLoading()
+    fun isSuccess() = status == RequestStatus.SUCCESS
+    fun isFailed() = status == RequestStatus.ERROR
 }

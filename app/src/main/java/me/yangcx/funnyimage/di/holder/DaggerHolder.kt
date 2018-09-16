@@ -14,8 +14,8 @@ object DaggerHolder {
                 .applicationComponent(applicationComponent)
                 .build()
     }
-    val repositoryComponent: RepositoryComponent by lazy {
-        DaggerRepositoryComponent.builder()
+    val viewModelComponent: ViewModelComponent by lazy {
+        DaggerViewModelComponent.builder()
                 .remoteModule(RemoteModule(true,
                         "https://api.unsplash.com/photos/",
                         mapOf(),

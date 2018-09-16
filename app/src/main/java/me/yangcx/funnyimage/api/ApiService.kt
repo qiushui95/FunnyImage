@@ -10,5 +10,5 @@ interface ApiService {
     fun getSplashImage(): Observable<UnsplashContainer>
 
     @GET("random")
-    fun getImageList(@Query("count") count: Int): Observable<UnsplashContainer>
+    fun getImageList(@Query("count") count: Int): Observable<List<UnsplashContainer>>
 }

@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import me.yangcx.funnyimage.R
 import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.glide.FunnyTransformation
+import me.yangcx.funnyimage.ui.main.HomeActivity
 import me.yangcx.xfoundation.ui.ViewModelActivity
 import me.yangcx.xnetwork.entity.SingleStatusResult
 import me.yangcx.xnetwork.status.RequestStatus
@@ -99,7 +100,7 @@ class SplashActivity : ViewModelActivity<SplashViewModel>(R.layout.activity_spla
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-
+                    HomeActivity.launch(this)
                 }.isDisposed
 
     }

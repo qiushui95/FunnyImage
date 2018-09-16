@@ -1,4 +1,4 @@
-package me.yangcx.funnyimage.repository
+package me.yangcx.funnyimage.ui.splash
 
 import android.arch.lifecycle.MutableLiveData
 import io.reactivex.Observable
