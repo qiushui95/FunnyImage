@@ -17,14 +17,22 @@ class HomeRepository @Inject constructor(private val retrofit: ApiService, priva
 
     fun getNextPageImage(data: MutableLiveData<MultipleStatusResult<ImageDetails>>) {
         retrofit.getImageList(INT_COUNT)
+                .map {
+                    val imageInfoList = it.map { container ->
+                        container.convertToImageInfo()
+                    }
+                    dao.insertImage(imageInfoList)
+                    it.map { container ->
+                        container.convertToImageDetails()
+                    }
+                }
                 .subscribeOnIoObserveOnUi()
-                .subscribe(object : MultipleResponseObserver<List<UnsplashContainer>, ImageDetails>(data) {
-                    override fun onSuccess(value: MultipleStatusResult<ImageDetails>, result: List<UnsplashContainer>) {
-                        result.mapTo(value.dataList) {
-                            Timber.e("======Repository=====${it.id}")
-                            it.convertToImageDetails()
-                        }
-                        Timber.e("======list=====${value.dataList.map { it.id }}")
+                .subscribe(object : MultipleResponseObserver<List<ImageDetails>, ImageDetails>(data) {
+                    override fun onSuccess(value: MultipleStatusResult<ImageDetails>, result: List<ImageDetails>) {
+                        value.dataList.addAll(result)
+                        Timber.e("====add===${value.dataList.size}===distict===${value.dataList.distinctBy {
+                            it.id
+                        }.size}")
                         value.status = RequestStatus.SUCCESS
                     }
                 })

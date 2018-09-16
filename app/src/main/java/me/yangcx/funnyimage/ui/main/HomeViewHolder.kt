@@ -13,7 +13,6 @@ import timber.log.Timber
 
 class HomeViewHolder(inflater: LayoutInflater, parent: ViewGroup) : BaseHolder<ImageDetails>(R.layout.item_home_image, inflater, parent) {
     override fun redrawUI(data: ImageDetails) {
-        Timber.e("=====Holder====,position:$adapterPosition,${data.id}")
         itemView.tvPosition.text=adapterPosition.toString()
         resetRatio(data.width, data.height)
         loadCollect(data.collected)
