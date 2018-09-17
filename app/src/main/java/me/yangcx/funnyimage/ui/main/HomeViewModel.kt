@@ -11,8 +11,6 @@ import javax.inject.Inject
 class HomeViewModel : ViewModel() {
     @Inject
     lateinit var repository: HomeRepository
-    @Inject
-    lateinit var adapter: BaseDataAdapter
 
     init {
         DaggerHolder.viewModelComponent

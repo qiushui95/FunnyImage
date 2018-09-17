@@ -1,6 +1,7 @@
 package me.yangcx.funnyimage.http
 
 import okhttp3.*
+import timber.log.Timber
 
 class CommonParamInterceptor(private val params: Map<String, Any>) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -69,6 +70,7 @@ class CommonParamInterceptor(private val params: Map<String, Any>) : Interceptor
                     .url(url)
                     .method(oldRequest.method(), body)
                     .build()
+            Timber.e(newRequest.url().toString())
             return chain.proceed(newRequest)
         }
     }

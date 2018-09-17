@@ -5,13 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_home.*
-import me.yangcx.forrecyclerview.binder.CommonBinder
+import me.yangcx.forrecyclerview.adapter.BaseDataAdapter
 import me.yangcx.funnyimage.R
 import me.yangcx.funnyimage.entity.ImageDetails
 import me.yangcx.xfoundation.ui.ViewModelActivity
-import timber.log.Timber
+import javax.inject.Inject
 
 class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, HomeViewModel::class) {
+    @Inject
+    lateinit var adapter: BaseDataAdapter
+
     override fun initThis() {
         bindRecycler()
         bindRefresh()
@@ -20,8 +23,8 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
     }
 
     private fun bindRecycler() {
-        viewModel.adapter.register(ImageDetails::class, HomeViewHolder::class)
-        rvImage.adapter = viewModel.adapter
+        adapter.register(ImageDetails::class, HomeViewHolder::class)
+        rvImage.adapter = adapter
     }
 
     private fun bindRefresh() {
@@ -39,7 +42,7 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
             it?.also { result ->
                 if (result.isNotLoading()) {
                     if (result.isSuccess()) {
-                        viewModel.adapter.items = result.dataList
+                        adapter.items = result.dataList
                         finishRefresh(true)
                     } else if (result.isFailed()) {
                         finishRefresh(false)

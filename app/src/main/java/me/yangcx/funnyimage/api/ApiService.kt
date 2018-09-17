@@ -9,6 +9,6 @@ interface ApiService {
     @GET("random")
     fun getSplashImage(): Observable<UnsplashContainer>
 
-    @GET("random")
-    fun getImageList(@Query("count") count: Int): Observable<List<UnsplashContainer>>
+    @GET("/photos?order_by=latest")
+    fun getImageList(@Query("page") page: Int, @Query("per_page") perPage: Int): Observable<List<UnsplashContainer>>
 }

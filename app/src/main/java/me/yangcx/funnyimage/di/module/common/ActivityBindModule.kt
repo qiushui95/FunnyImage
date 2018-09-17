@@ -11,7 +11,8 @@ abstract class ActivityBindModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun splashInjector(): SplashActivity
+
     @ActivityScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [AdapterModule::class])
     abstract fun homeInjector(): HomeActivity
 }
