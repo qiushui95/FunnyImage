@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.yangcx.ximagewatcher">
+
+    <application>
+        <activity android:name=".ui.ImageWatcherActivity"
+            android:theme="@style/XImageWatcherTheme"/>
+    </application>
+</manifest>

@@ -1,1 +1,1 @@
-include ':app', ':xdialog', ':xrecyclerview', ':xtoast', ':xfoundation', ':xnetwork'
+include ':app', ':xdialog', ':xrecyclerview', ':xtoast', ':xfoundation', ':xnetwork', ':ximagewatcher'

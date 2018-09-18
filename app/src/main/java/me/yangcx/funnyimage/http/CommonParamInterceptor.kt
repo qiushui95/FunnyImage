@@ -70,7 +70,6 @@ class CommonParamInterceptor(private val params: Map<String, Any>) : Interceptor
                     .url(url)
                     .method(oldRequest.method(), body)
                     .build()
-            Timber.e(newRequest.url().toString())
             return chain.proceed(newRequest)
         }
     }

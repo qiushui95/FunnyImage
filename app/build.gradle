@@ -48,6 +48,7 @@ dependencies {
     implementation project(':xrecyclerview')
     implementation project(':xfoundation')
     implementation project(':xnetwork')
+    implementation project(':ximagewatcher')
 
     //test
     testImplementation deps.junit
@@ -94,6 +95,7 @@ dependencies {
 
     //view
     implementation deps.view.constraintLayout
+    implementation deps.view.flexBox
     implementation deps.view.smartRefresh
     implementation deps.view.smartRefreshHeader
 

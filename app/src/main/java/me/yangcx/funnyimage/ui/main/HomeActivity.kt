@@ -4,6 +4,10 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yangcx.forrecyclerview.adapter.BaseDataAdapter
 import me.yangcx.funnyimage.R
@@ -15,6 +19,14 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
     @Inject
     lateinit var adapter: BaseDataAdapter
 
+    private val layoutManager by lazy {
+        FlexboxLayoutManager(this).apply {
+            flexWrap = FlexWrap.WRAP
+            flexDirection = FlexDirection.ROW
+            alignItems = AlignItems.STRETCH
+        }
+    }
+
     override fun initThis() {
         bindRecycler()
         bindRefresh()
@@ -23,6 +35,7 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
     }
 
     private fun bindRecycler() {
+        rvImage.layoutManager = layoutManager
         adapter.register(ImageDetails::class, HomeViewHolder::class)
         rvImage.adapter = adapter
     }
@@ -61,7 +74,6 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
     companion object {
         fun launch(context: Context) {
             val intent = Intent(context.applicationContext, HomeActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

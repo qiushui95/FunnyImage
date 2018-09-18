@@ -33,7 +33,6 @@ class SplashActivity : ViewModelActivity<SplashViewModel>(R.layout.activity_spla
     }
 
     override fun initThis() {
-        Glide.with(this).load(R.mipmap.ic_status_loading).apply(RequestOptions().transform(FunnyTransformation())).into(ivSplash)
         viewModel.splashImage.observe(this, Observer<SingleStatusResult<ImageInfo>> {
             if (it?.status == RequestStatus.SUCCESS) {
                 it.data?.regular?.also { regular ->

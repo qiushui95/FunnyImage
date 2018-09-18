@@ -2,12 +2,16 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion buildVersions.targetSdk
     buildToolsVersion buildVersions.buildTools
     defaultConfig {
         minSdkVersion buildVersions.minSdk
         targetSdkVersion buildVersions.targetSdk
+        versionCode 1
+        versionName "1.0"
 
         sourceSets {
             main.java.srcDirs += 'src/main/kotlin'
@@ -27,14 +31,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //kotlin
     compileOnly deps.kotlin.stdlib
-    compileOnly deps.recyclerView.recyclerView
 
-    //lifecycle
-    compileOnly deps.lifecycle.runtime
-    compileOnly deps.lifecycle.extensions
+    //recycler
+    implementation deps.recyclerView.recyclerView
 
-    compileOnly(deps.recyclerView.multiTypeAdapter) {
-        exclude group: 'com.android.support'
-    }
+    //view
+    compileOnly deps.view.constraintLayout
+    implementation deps.view.photoView
 }

@@ -21,7 +21,7 @@ abstract class BaseHolder<T>(@LayoutRes layoutRes: Int, inflater: LayoutInflater
     /**
      * Item局部发生变化、更新局部Item
      */
-    open fun uiChanged(data: T, payloadList: MutableList<String>) {
+    open fun uiChanged(data: T, payloadList: List<String>) {
 
     }
 }

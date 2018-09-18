@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetStart="0dp"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -50,8 +50,6 @@
                 android:id="@+id/rvImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="android.support.v7.widget.StaggeredGridLayoutManager"
-                app:spanCount="3"
                 tools:listitem="@layout/item_home_image" />
 
             <com.scwang.smartrefresh.layout.footer.ClassicsFooter
