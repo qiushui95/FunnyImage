@@ -1,5 +1,6 @@
 package me.yangcx.funnyimage.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -20,6 +21,8 @@ interface FunnyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCollect(collectInfo: CollectInfo): Long
 
+    @Query("select * from imageinfo where insertTime >= :insertTime  order by `index` desc limit 1 ;")
+    fun getSplash(insertTime: Long): LiveData<ImageInfo>
 //    @Query("select `index`,id,width,height,thumb,small,regular,full,raw,collected >0 as collected from imageinfo left join collectinfo on imageId=id order by `index` desc limit 10 offset 0")
 //    fun getHomeList(): Maybe<List<ImageDetails>>
 }

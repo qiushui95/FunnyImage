@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8fe6dbb2104227e9201062fb0cd1aeab",
+    "identityHash": "75620e3de5b999cab452381e9f36f572",
     "entities": [
       {
         "tableName": "ImageInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `thumb` TEXT NOT NULL, `small` TEXT NOT NULL, `regular` TEXT NOT NULL, `full` TEXT NOT NULL, `raw` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `thumb` TEXT NOT NULL, `small` TEXT NOT NULL, `regular` TEXT NOT NULL, `full` TEXT NOT NULL, `raw` TEXT NOT NULL, `insertTime` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "index",
@@ -60,6 +60,12 @@
             "fieldPath": "raw",
             "columnName": "raw",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "insertTime",
+            "columnName": "insertTime",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -116,7 +122,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8fe6dbb2104227e9201062fb0cd1aeab\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"75620e3de5b999cab452381e9f36f572\")"
     ]
   }
 }

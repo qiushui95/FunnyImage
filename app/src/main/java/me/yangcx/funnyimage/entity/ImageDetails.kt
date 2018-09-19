@@ -11,7 +11,7 @@ class ImageDetails(
         regular: String,
         full: String,
         raw: String,
-        var collected: Boolean = false) : ImageInfo(0, id, width, height, thumb, small, regular, full, raw), IAdapterData {
+        var collected: Boolean = false) : ImageInfo(0, id, width, height, thumb, small, regular, full, raw, System.currentTimeMillis()), IAdapterData {
     override fun copySelf(): IAdapterData {
         return ImageDetails(id, width, height, thumb, small, regular, full, raw, collected)
     }

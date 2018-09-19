@@ -1,33 +1,33 @@
 package me.yangcx.xfoundation.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import me.yangcx.xnetwork.entity.RequestResult
 
-abstract class BasePagingViewModel constructor(val pageSize: Int, private val startPage: Int = 0) : ViewModel() {
+abstract class BasePagingViewModel constructor(val pageSize: Int, private val startPage: Int = 0) : BaseViewModel() {
     var noMoreData = false
     val hasNext = !noMoreData
-
-    private var currentPage = startPage
-    val status by lazy {
-        MutableLiveData<RequestResult>()
+    private var itemCount = 0
+    val dataList by lazy {
+        MutableLiveData<MutableList<Any>>()
     }
+    private var currentPage = startPage
 
-    @Synchronized
-    protected fun loadSuccess(dataList: List<*>) {
-        synchronized(noMoreData) {
-            noMoreData = dataList.size < pageSize
-            currentPage++
+    init {
+        dataList.observeForever {
+            it?.apply {
+                noMoreData = size > itemCount
+                itemCount = size
+                currentPage++
+            }
         }
     }
 
     @Synchronized
-    protected fun refresh() {
+    protected fun refreshPaging() {
         synchronized(noMoreData) {
-            noMoreData = false
+            dataList.value = mutableListOf()
             currentPage = startPage
         }
     }
 
-    fun getNextPage() = currentPage
+    protected fun getNextPage() = currentPage
 }

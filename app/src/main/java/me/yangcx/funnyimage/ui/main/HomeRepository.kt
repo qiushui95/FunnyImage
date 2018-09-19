@@ -5,14 +5,14 @@ import me.yangcx.funnyimage.api.ApiService
 import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.entity.ImageDetails
 import me.yangcx.xfoundation.extend.subscribeOnIoObserveOnUi
-import me.yangcx.xnetwork.callback.MultipleResponseObserver
+import me.yangcx.xnetwork.callback.StatusObserver
 import me.yangcx.xnetwork.entity.RequestResult
-import me.yangcx.xnetwork.status.RequestStatus
+import me.yangcx.xnetwork.extend.addAll
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val retrofit: ApiService, private val dao: FunnyDao) {
 
-    fun getNextPageImage(page: Int, pageSize: Int, data: MutableLiveData<RequestResult<ImageDetails>>) {
+    fun getNextPageImage(page: Int, pageSize: Int, data: MutableLiveData<MutableList<Any>>, status: MutableLiveData<RequestResult>) {
         retrofit.getImageList(page, pageSize)
                 .map {
                     val imageInfoList = it.map { container ->
@@ -24,10 +24,14 @@ class HomeRepository @Inject constructor(private val retrofit: ApiService, priva
                     }
                 }
                 .subscribeOnIoObserveOnUi()
-                .subscribe(object : MultipleResponseObserver<List<ImageDetails>, ImageDetails>(data) {
-                    override fun onSuccess(value: RequestResult<ImageDetails>, result: List<ImageDetails>) {
-                        value.dataList.addAll(result)
-                        value.status = RequestStatus.SUCCESS
+                .subscribe(object : StatusObserver<List<ImageDetails>>(status) {
+                    override fun onSuccess(status: MutableLiveData<RequestResult>, result: List<ImageDetails>) {
+                        data.value = mutableListOf<Any>()
+                                .apply {
+                                    addAll(data.value)
+                                    addAll(result)
+                                }
+                        status.value = RequestResult.newSuccess()
                     }
                 })
     }

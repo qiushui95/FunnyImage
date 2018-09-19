@@ -19,7 +19,6 @@ import me.yangcx.funnyimage.entity.ImageInfo
 import me.yangcx.funnyimage.glide.FunnyTransformation
 import me.yangcx.funnyimage.ui.main.HomeActivity
 import me.yangcx.xfoundation.ui.ViewModelActivity
-import me.yangcx.xnetwork.entity.SingleStatusResult
 import me.yangcx.xnetwork.status.RequestStatus
 import java.util.concurrent.TimeUnit
 
@@ -33,29 +32,26 @@ class SplashActivity : ViewModelActivity<SplashViewModel>(R.layout.activity_spla
     }
 
     override fun initThis() {
-        viewModel.splashImage.observe(this, Observer<SingleStatusResult<ImageInfo>> {
-            if (it?.status == RequestStatus.SUCCESS) {
-                it.data?.regular?.also { regular ->
-                    Glide.with(this).load(regular).apply(
-                            RequestOptions()
-                                    .transform(FunnyTransformation()))
-                            .addListener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(p0: GlideException?, p1: Any?, p2: Target<Drawable>?, p3: Boolean): Boolean {
-                                    return false
-                                }
-
-                                override fun onResourceReady(p0: Drawable?, p1: Any?, p2: Target<Drawable>?, p3: DataSource?, p4: Boolean): Boolean {
-                                    viewModel.setImageClickable(true)
-                                    return false
-                                }
+        viewModel.splashImage.observe(this, Observer {
+            it?.small?.also { regular ->
+                Glide.with(this).load(regular).apply(
+                        RequestOptions()
+                                .transform(FunnyTransformation()))
+                        .addListener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(p0: GlideException?, p1: Any?, p2: Target<Drawable>?, p3: Boolean): Boolean {
+                                return false
                             }
-                            ).into(ivSplash)
-                }
+
+                            override fun onResourceReady(p0: Drawable?, p1: Any?, p2: Target<Drawable>?, p3: DataSource?, p4: Boolean): Boolean {
+                                viewModel.setImageClickable(true)
+                                return false
+                            }
+                        }
+                        ).into(ivSplash)
             }
         })
-        viewModel.collectStatus.observe(this, Observer<SingleStatusResult<Boolean>> {
-            ivCollect.isClickable = it?.status != RequestStatus.LOADING
-            ivCollect.setImageResource(if (it?.data == true) {
+        viewModel.collectStatus.observe(this, Observer<Boolean> {
+            ivCollect.setImageResource(if (it == true) {
                 R.drawable.ic_collected
             } else {
                 R.drawable.ic_uncollected
@@ -71,7 +67,6 @@ class SplashActivity : ViewModelActivity<SplashViewModel>(R.layout.activity_spla
         viewModel.imageClickable.observe(this, Observer {
             ivSplash.isClickable = it == true
         })
-        viewModel.getSplashImage()
         initAnimation()
         initView()
         initListener()

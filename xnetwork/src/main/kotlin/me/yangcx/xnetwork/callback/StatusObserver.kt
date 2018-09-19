@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
 import me.yangcx.xnetwork.entity.RequestResult
 import me.yangcx.xnetwork.status.RequestStatus
 
-abstract class JustStatusObserver<T>(private val status: MutableLiveData<RequestResult>) : Observer<T> {
+abstract class StatusObserver<T>(private val status: MutableLiveData<RequestResult>) : Observer<T> {
     override fun onSubscribe(d: Disposable) {
         status.value = RequestResult.newLoading()
     }

@@ -45,22 +45,23 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
             viewModel.refreshData()
         }
         srlRefresh.setOnLoadMoreListener {
-            viewModel.getNextPage()
+            viewModel
         }
     }
 
     private fun bindViewModel() {
-        viewModel.init()
         viewModel.dataList.observe(this, Observer {
+            if (it != null) {
+                adapter.items = it
+            }
+        })
+        viewModel.status.observe(this, Observer {
             it?.also { result ->
-                if (result.isNotLoading()) {
-                    if (result.isSuccess()) {
-                        adapter.items = result.dataList
-                        finishRefresh(true)
-                    } else if (result.isFailed()) {
-                        finishRefresh(false)
-                        Toast.makeText(this, result.errorMessage, Toast.LENGTH_SHORT).show()
-                    }
+                if (result.isFailed) {
+                    finishRefresh(false)
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                } else if (result.isSuccess) {
+                    finishRefresh(true)
                 }
             }
         })

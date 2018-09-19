@@ -9,6 +9,6 @@ data class UnsplashContainer(
         @SerializedName("height") val height: Int,
         @SerializedName("urls") val urls: UnsplashImage
 ) {
-    fun convertToImageInfo() = ImageInfo(0, id, width, height, urls.thumb, urls.small, urls.regular, urls.full, urls.raw)
+    fun convertToImageInfo() = ImageInfo(0, id, width, height, urls.thumb, urls.small, urls.regular, urls.full, urls.raw,System.currentTimeMillis())
     fun convertToImageDetails() = ImageDetails(id, width, height, urls.thumb, urls.small, urls.regular, urls.full, urls.raw)
 }

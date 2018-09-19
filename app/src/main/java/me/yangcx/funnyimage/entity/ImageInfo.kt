@@ -17,5 +17,6 @@ open class ImageInfo(
         var small: String,
         var regular: String,
         var full: String,
-        var raw: String
+        var raw: String,
+        var insertTime: Long
 )
