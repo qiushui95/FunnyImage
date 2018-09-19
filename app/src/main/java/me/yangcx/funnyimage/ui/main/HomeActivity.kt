@@ -36,7 +36,7 @@ class HomeActivity : ViewModelActivity<HomeViewModel>(R.layout.activity_home, Ho
 
     private fun bindRecycler() {
         rvImage.layoutManager = layoutManager
-        adapter.register(ImageDetails::class, HomeViewHolder::class)
+        adapter.register(ImageDetails::class, HomeBinder())
         rvImage.adapter = adapter
     }
 

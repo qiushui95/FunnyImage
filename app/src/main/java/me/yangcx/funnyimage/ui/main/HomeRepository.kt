@@ -6,15 +6,14 @@ import me.yangcx.funnyimage.db.FunnyDao
 import me.yangcx.funnyimage.entity.ImageDetails
 import me.yangcx.xfoundation.extend.subscribeOnIoObserveOnUi
 import me.yangcx.xnetwork.callback.MultipleResponseObserver
-import me.yangcx.xnetwork.entity.MultipleStatusResult
+import me.yangcx.xnetwork.entity.RequestResult
 import me.yangcx.xnetwork.status.RequestStatus
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val retrofit: ApiService, private val dao: FunnyDao) {
 
-    fun getNextPageImage(data: MutableLiveData<MultipleStatusResult<ImageDetails>>) {
-        retrofit.getImageList((data.value?.dataList?.size ?: 0)/INT_COUNT+1, INT_COUNT)
+    fun getNextPageImage(page: Int, pageSize: Int, data: MutableLiveData<RequestResult<ImageDetails>>) {
+        retrofit.getImageList(page, pageSize)
                 .map {
                     val imageInfoList = it.map { container ->
                         container.convertToImageInfo()
@@ -26,14 +25,10 @@ class HomeRepository @Inject constructor(private val retrofit: ApiService, priva
                 }
                 .subscribeOnIoObserveOnUi()
                 .subscribe(object : MultipleResponseObserver<List<ImageDetails>, ImageDetails>(data) {
-                    override fun onSuccess(value: MultipleStatusResult<ImageDetails>, result: List<ImageDetails>) {
+                    override fun onSuccess(value: RequestResult<ImageDetails>, result: List<ImageDetails>) {
                         value.dataList.addAll(result)
                         value.status = RequestStatus.SUCCESS
                     }
                 })
-    }
-
-    companion object {
-        private const val INT_COUNT = 25
     }
 }

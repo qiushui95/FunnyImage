@@ -29,6 +29,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //module
+    api project(':xnetwork')
+
     //test
     testImplementation deps.junit
     androidTestImplementation deps.atsl.runner

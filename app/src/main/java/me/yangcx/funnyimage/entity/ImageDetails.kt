@@ -16,11 +16,11 @@ class ImageDetails(
         return ImageDetails(id, width, height, thumb, small, regular, full, raw, collected)
     }
 
-    override fun isSame(item: Any?): Boolean {
+    override fun isSame(item: IAdapterData): Boolean {
         return item is ImageDetails && isIdSame(item)
     }
 
-    override fun isContentSame(item: Any): Boolean {
+    override fun isContentSame(item: IAdapterData): Boolean {
         return item is ImageDetails && isWidthSame(item) && isHeightSame(item) && isThumbSame(item) && isSmallSame(item) && isRegularSame(item) && isFullSame(item) && isRawSame(item) && isCollectedSame(item)
     }
 
@@ -42,7 +42,7 @@ class ImageDetails(
 
     fun isCollectedSame(item: ImageDetails) = item.collected == collected
 
-    override fun getChangePayload(item: Any, payloadList: MutableList<String>) {
+    override fun getChangePayload(item: IAdapterData, payloadList: MutableList<String>) {
         if (item is ImageDetails) {
             if (isCollectedSame(item)) {
                 payloadList.add("collected")
